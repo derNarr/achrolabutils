@@ -8,19 +8,20 @@
 # last mod 2010-12-02, KS
 
 from visionlab.tubes2 import Tubes
-from EyeOne import EyeOne
+from visionlab.EyeOne import EyeOne
 
 eyeone = EyeOne.EyeOne()
 tubes = Tubes(eyeone)
 
 xyY_list = []
 voltages = []
+tubes.calibrateEyeOne()
 tubes.startMeasurement()
 for i in range(0,50):
     print("measure voltages: " + str(0x800+40*i))
     xyY_list.append( 
             tubes.measureVoltages( (0x800+40*i, 0x800+40*i, 0x800+40*i) ) )
-    voltages.append( 0x800+40*1)
+    voltages.append( 0x800+40*i)
 
 # flat xyY_list
 xyY_list = [x[0] for x in xyY_list]
