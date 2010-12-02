@@ -7,7 +7,7 @@
 #
 # last mod 2010-12-02, KS
 
-from visonlab.colormath.color_objects import SpectralColor, xyYColor,RGBColor
+from visionlab.colormath.color_objects import SpectralColor, xyYColor,RGBColor
 
 xyY = xyYColor(0.32, 0.32, 3.2)
 print(xyY.convert_to("rgb", targetRGB="sRGB", clip=False))
