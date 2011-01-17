@@ -17,11 +17,24 @@ eye_one = EyeOne.EyeOne()#dummy=True)
 mywin = visual.Window(size=(2048,1536), monitor='mymon',
                 color=(0,0,0), screen=1)
 mon = Monitor(eye_one, mywin)
-mon.setPatchStimColor(0.380392156863)
 
-wasco.wasco_outportW(boardId, DAOUT1_16, 3778)
-wasco.wasco_outportW(boardId, DAOUT2_16, 2331)
-wasco.wasco_outportW(boardId, DAOUT3_16, 3252)
+# color170
+#mon.setPatchStimColor(0.333333333333)
+#wasco.wasco_outportW(boardId, DAOUT3_16, 1762)
+#wasco.wasco_outportW(boardId, DAOUT1_16, 2535)
+#wasco.wasco_outportW(boardId, DAOUT2_16, 2277)
+
+# color170
+#mon.setPatchStimColor(0.333333333333)
+#wasco.wasco_outportW(boardId, DAOUT3_16, 1731)
+#wasco.wasco_outportW(boardId, DAOUT1_16, 2480)
+#wasco.wasco_outportW(boardId, DAOUT2_16, 2271)
+
+#color175
+#mon.setPatchStimColor(0.372549019608)
+#wasco.wasco_outportW(boardId, DAOUT3_16, 1777)
+#wasco.wasco_outportW(boardId, DAOUT1_16, 2524)
+#wasco.wasco_outportW(boardId, DAOUT2_16, 2411)
 
 mouse = event.Mouse(mywin)
 show = True 
