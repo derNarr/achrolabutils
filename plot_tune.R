@@ -50,8 +50,8 @@ rm(tmp, tmp2, files, file)
 ##########################################################################
 ### select COLOR #########################################################
 ##########################################################################
-color_num = 171
-it2 <- it[it$target=="r770g908b1069",]
+color_num = 161
+it2 <- it[it$target=="x0.2967y0.3186Y15.3511",]
 
 ##########################################################################
 ### xyY ##################################################################
@@ -60,7 +60,7 @@ it2 <- it[it$target=="r770g908b1069",]
 # x vs y
 X11()
 plot(dat$monitor_xyY_x[color_num], dat$monitor_xyY_y[color_num], pch="x",
-xlim=c(0.26,0.33), ylim=c(0.25,0.35))
+xlim=c(0.26,0.33), ylim=c(0.25,0.35), cex=3)
 
 for (iter in levels(it2$iteration)) {
     for (ch in levels(it2$channel)) {
@@ -79,7 +79,7 @@ for (iter in levels(it2$iteration)) {
 # x vs Y
 X11()
 plot(dat$monitor_xyY_x[color_num], dat$monitor_xyY_Y[color_num], pch="x",
-xlim=c(0.26,0.31), ylim=c(10,20))
+xlim=c(0.26,0.31), ylim=c(10,20), cex=3)
 
 for (iter in levels(it2$iteration)) {
     for (ch in levels(it2$channel)) {
@@ -101,7 +101,7 @@ for (iter in levels(it2$iteration)) {
 # r vs g
 X11()
 plot(dat$voltages_r[color_num], dat$voltages_g[color_num], pch="s",
-xlim=c(0x400,0xFFF), ylim=c(0x400,0xFFF))
+xlim=c(0x400,0xFFF), ylim=c(0x400,0xFFF), cex=3)
 
 for (iter in levels(it2$iteration)) {
     for (ch in levels(it2$channel)) {
@@ -120,7 +120,7 @@ for (iter in levels(it2$iteration)) {
 # r vs b
 X11()
 plot(dat$voltages_r[color_num], dat$voltages_b[color_num], pch="s",
-xlim=c(1000,3000), ylim=c(1000,3000))
+xlim=c(1000,3000), ylim=c(1000,3000), cex=3)
 
 for (iter in levels(it2$iteration)) {
     for (ch in levels(it2$channel)) {
@@ -143,7 +143,7 @@ for (iter in levels(it2$iteration)) {
 X11()
 tmp <- xyyToRgb(dat[color_num, 12:14])
 plot(tmp[1], tmp[2], pch="x", xlim=c(7,14), ylim=c(10,20), xlab="red",
-ylab="green")
+ylab="green", cex=3)
 
 for (iter in levels(it2$iteration)) {
     for (ch in levels(it2$channel)) {
@@ -163,7 +163,7 @@ for (iter in levels(it2$iteration)) {
 X11()
 tmp <- xyyToRgb(dat[color_num, 12:14])
 plot(tmp[1], tmp[3], pch="x", xlim=c(7,14), ylim=c(15,28), xlab="red",
-ylab="blue")
+ylab="blue", cex=3)
 
 for (iter in levels(it2$iteration)) {
     for (ch in levels(it2$channel)) {
