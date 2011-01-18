@@ -16,10 +16,10 @@ path="/home/kfs-studium/Dokumente/arbeit/PI/visionlabutils/"
 
 setwd(paste(path, "visionlab/data/", sep=""))
 
-dat <- read.csv("color_table_20101209_1220.csv", na.strings="NA", colClasses=c("character", rep("numeric", 16)))
-dat2 <- dat[175:177,]
-datTuned <- read.csv("color_table_20110115_1306.csv", na.strings="NA", colClasses=c("character", rep("numeric", 16)))
-datTuned2 <- datTuned[175:177,]
+dat <- read.csv("color_table_20110118_1134.csv", na.strings="NA", colClasses=c("character", rep("numeric", 16)))
+#dat2 <- dat[175:177,]
+#datTuned <- read.csv("color_table_20110115_1306.csv", na.strings="NA", colClasses=c("character", rep("numeric", 16)))
+#datTuned2 <- datTuned[175:177,]
 
 
 setwd(paste(path, "visionlab/tune/", sep=""))
@@ -60,7 +60,7 @@ it2 <- it[it$target=="r770g908b1069",]
 # x vs y
 X11()
 plot(dat$monitor_xyY_x[color_num], dat$monitor_xyY_y[color_num], pch="x",
-xlim=c(0.26,0.31), ylim=c(0.25,0.33))
+xlim=c(0.26,0.33), ylim=c(0.25,0.35))
 
 for (iter in levels(it2$iteration)) {
     for (ch in levels(it2$channel)) {
@@ -120,7 +120,7 @@ for (iter in levels(it2$iteration)) {
 # r vs b
 X11()
 plot(dat$voltages_r[color_num], dat$voltages_b[color_num], pch="s",
-xlim=c(1000,3000), ylim=c(2000,5000))
+xlim=c(1000,3000), ylim=c(1000,3000))
 
 for (iter in levels(it2$iteration)) {
     for (ch in levels(it2$channel)) {
