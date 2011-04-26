@@ -1,0 +1,3 @@
+[submodule "visionlab"]
+	path = visionlab
+	url = git://github.com/derNarr/visionlab
