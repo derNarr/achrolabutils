@@ -5,12 +5,12 @@
 # (c) 2010 Konstantin Sering <konstantin.sering [aet] gmail.com>
 # GPL 3.0+ or (cc) by-sa (http://creativecommons.org/licenses/by-sa/3.0/)
 #
-# last mod 2010-12-02, KS
+# last mod 2011-05-01, DW
 
 from visionlab.wasco.wasco import wasco, boardId
 from visionlab.wasco.WascoConstants import DAOUT1_16, DAOUT2_16, DAOUT3_16
 from psychopy import visual,event,core
-from visionlab.monitor2 import Monitor
+from visionlab.monitor import Monitor
 from visionlab.EyeOne import EyeOne
 
 eye_one = EyeOne.EyeOne()#dummy=True)
