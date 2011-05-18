@@ -1,3 +1,6 @@
 [submodule "visionlab"]
 	path = visionlab
 	url = git://github.com/derNarr/visionlab
+[submodule "achrolab"]
+	path = achrolab
+	url = git@github.com:derNarr/achrolab.git
