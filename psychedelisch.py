@@ -7,7 +7,7 @@
 #
 # last mod 2011-05-01, DW
 
-from visionlab.devtubes import Tubes
+from achrolab.devtubes import Tubes
 import time 
 from random import randint 
 

@@ -7,8 +7,8 @@
 #
 # last mod 2010-12-02, KS
 
-from visionlab.wasco.wasco import wasco, boardId
-from visionlab.wasco.WascoConstants import DAOUT1_16, DAOUT2_16, DAOUT3_16
+from achrolab.wasco.wasco import wasco, boardId
+from achrolab.wasco.WascoConstants import DAOUT1_16, DAOUT2_16, DAOUT3_16
 
 wasco.wasco_outportW(boardId, DAOUT1_16, 0xFFF)
 wasco.wasco_outportW(boardId, DAOUT2_16, 0xFFF)

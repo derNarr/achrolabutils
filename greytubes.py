@@ -7,8 +7,8 @@
 #
 # last mod 2011-05-01, DW
 
-from visionlab.tubes import Tubes
-from visionlab.EyeOne import EyeOne
+from achrolab.tubes import Tubes
+from achrolab.EyeOne import EyeOne
 
 eyeone = EyeOne.EyeOne()
 tubes = Tubes(eyeone)

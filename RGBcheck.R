@@ -8,8 +8,8 @@
 # last mod 2010-12-09, KS
 
 
-#setwd("C:/Dokumente und Einstellungen/user1/Desktop/visionlabutils/visionlab/data/")
-setwd("/home/kfs-studium/Dokumente/arbeit/PI/visionlabutils/visionlab/data/")
+#setwd("C:/Dokumente und Einstellungen/user1/Desktop/achrolabutils/achrolab/data/")
+setwd("/home/kfs-studium/Dokumente/arbeit/PI/achrolabutils/achrolab/data/")
 
 dat <- read.csv("RGBcolor_table_20101209_1220.csv", na.strings="NA", colClasses=c("character", rep("numeric", 16)))
 dat2 <- dat[175:177,]

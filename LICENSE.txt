@@ -1,4 +1,4 @@
-visionlabutils collects some useful scripts which uses the visionlab
+achrolabutils collects some useful scripts which uses the achrolab
 package.
 
 Copyright (C) 2010-2011  Konstantin Sering <konstantin.sering [aet] gmail.com>

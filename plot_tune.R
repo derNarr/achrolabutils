@@ -11,10 +11,10 @@
 ### READ DATA ############################################################
 ##########################################################################
 
-#path="C:/Dokumente und Einstellungen/user1/Desktop/visionlabutils/"
-path="/home/kfs-studium/Dokumente/arbeit/PI/visionlabutils/"
+#path="C:/Dokumente und Einstellungen/user1/Desktop/achrolabutils/"
+path="/home/kfs-studium/Dokumente/arbeit/PI/achrolabutils/"
 
-setwd(paste(path, "visionlab/data/", sep=""))
+setwd(paste(path, "achrolab/data/", sep=""))
 
 dat <- read.csv("color_table_20110118_1134.csv", na.strings="NA", colClasses=c("character", rep("numeric", 16)))
 #dat2 <- dat[175:177,]
@@ -22,7 +22,7 @@ dat <- read.csv("color_table_20110118_1134.csv", na.strings="NA", colClasses=c("
 #datTuned2 <- datTuned[175:177,]
 
 
-setwd(paste(path, "visionlab/tune/", sep=""))
+setwd(paste(path, "achrolab/tune/", sep=""))
 
 files <- dir()
 
