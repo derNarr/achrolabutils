@@ -11,7 +11,7 @@ from achrolab.wasco.wasco import wasco, boardId
 from achrolab.wasco.WascoConstants import DAOUT1_16, DAOUT2_16, DAOUT3_16
 from psychopy import visual,event,core
 from achrolab.monitor import Monitor
-from achrolab.EyeOne import EyeOne
+from achrolab.eyeone import EyeOne
 
 eye_one = EyeOne.EyeOne()#dummy=True)
 mywin = visual.Window(size=(2048,1536), monitor='mymon',
