@@ -8,7 +8,7 @@
 # last mod 2011-05-01, DW
 
 from achrolab.tubes import Tubes
-from achrolab.EyeOne import EyeOne
+from achrolab.eyeone import EyeOne
 
 eyeone = EyeOne.EyeOne()
 tubes = Tubes(eyeone)
