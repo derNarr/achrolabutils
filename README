@@ -3,7 +3,7 @@ TODO: add more details
 
 achrolabutils contains module achrolab and two submodules eyeone and wasco.
 
-To get started with github and become a contributing member to these
+To get started with github and to become a contributing member to these
 repositories do the following:
 
 Open git bash and clone achrolabutils
@@ -12,7 +12,7 @@ Open git bash and clone achrolabutils
 
 then run
 
-    cd achrolababutils
+    cd achrolabutils
     git submodule update --recursive --init
 
 Now you have all repositories on your machine.
