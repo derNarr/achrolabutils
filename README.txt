@@ -1,4 +1,4 @@
-achrolabutils contains useful scripts for running the visionlab.
+achrolabutils contains useful scripts for running the vision laboratory.
 TODO: add more details
 
 achrolabutils contains module achrolab and two submodules eyeone and wasco.
@@ -17,7 +17,7 @@ then run
 
 Now you have all repositories on your machine.
 
-When you want to get writing access (you are allowed to and want one), run
+When you want to get writing access (you are allowed to and want to), run
 
     cd achrolab
     git remote rm origin
