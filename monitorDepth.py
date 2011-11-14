@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
-# ./achrolabutils/calibrationMonitor.py
+# ./achrolabutils/monitorDepth.py
 #
 # (c) 2010 Konstantin Sering <konstantin.sering [aet] gmail.com> und Nora
 # Umbach <nora.umbach@web.de>
 # GPL 3.0+ or (cc) by-sa (http://creativecommons.org/licenses/by-sa/3.0/)
 #
-# last mod 2011-01-25, NU
+# last mod 2011-11-14, KS
 
 from achrolab.eyeone.EyeOne import EyeOne
 from achrolab.eyeone.EyeOneConstants import  (I1_MEASUREMENT_MODE, 
@@ -62,7 +62,7 @@ def getResolution(colorlist, imi=0.5, screen=0, colorSpace='rgb'):
         win = visual.Window(size=(2048,1536), color=0.4, monitor='mymon',
                 screen=screen, colorSpace=colorSpace)
 
-        sizeSur = 8
+        sizeSur = 20
         #pos = sizeSur/2 + 0.02
         patch_stim = visual.PatchStim(win, units='deg', size=sizeSur,
                 pos=[0,0], sf=0, color=-0.1450980, colorSpace=colorSpace)
@@ -102,12 +102,25 @@ def getResolution(colorlist, imi=0.5, screen=0, colorSpace='rgb'):
         print("Measurement finished.")
         calibfile = open('achrolab/calibdata/measurements/resolution_monitor' +
                 time.strftime("%Y%m%d_%H%M") + '.txt', 'w')
-        calibfile.write('\n'.join([str(x) for x in xyY_list]))
+        if isinstance(colorlist[0], int):
+            for i in range(len(xyY_list)):
+                calibfile.write(str(colorlist[i]) + ", " +
+                    ", ".join([str(x) for x in xyY_list[i]]) +
+                    "\n")
+        else:
+            for i in range(len(xyY_list)):
+                calibfile.write(", ".join([str(x) for x in colorlist[i]]) +
+                    ", ".join([str(x) for x in xyY_list[i]]) +
+                    "\n")
 
 if(__name__=="__main__"):
 
     #patch_stim_value_list = [x/127.5 - 1 for x in range(120,130)]
-    patch_stim_rgb = [x for x in range(120,125)]
+    patch_stim_rgb = list()
+    for r in range(100,150):
+        for g in range(100,150):
+            for b in range(100,150):
+                patch_stim_rgb.append( (r,g,b) )
 
     mywin = visual.Window(size=(2048,1536), monitor='mymon',
                 color=(1,1,1), screen=1, colorSpace='rgb')
