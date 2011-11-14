@@ -39,7 +39,7 @@ def getResolution(colorlist, imi=0.5, screen=0, colorSpace='rgb'):
         else:
             print("Failed to set measurement mode.")
             return
-        
+
         if(eye_one.I1_SetOption(COLOR_SPACE_KEY, COLOR_SPACE_CIExyY) ==
                 eNoError):
             print("Color space set to CIExyY.")
@@ -57,7 +57,7 @@ def getResolution(colorlist, imi=0.5, screen=0, colorSpace='rgb'):
         else:
             print("Calibration of EyeOne Pro failed. Please RESTART.")
             return
-        
+
         ## measurement
         win = visual.Window(size=(2048,1536), color=0.4, monitor='mymon',
                 screen=screen, colorSpace=colorSpace)
@@ -69,53 +69,54 @@ def getResolution(colorlist, imi=0.5, screen=0, colorSpace='rgb'):
         patch_stim.setColor(-0.5, colorSpace=colorSpace)
         patch_stim.draw()
         win.flip()
-        
+
         # prompt for click on button of EyeOne Pro
         print("\nPlease put EyeOne-Pro in measurement position and hit"
         + " button to start measurement.")
         while(eye_one.I1_KeyPressed() != eNoError):
             time.sleep(0.01)
 
-        print("Starting measurement...")
-        
-        xyY_list = list() # saves the measured xyY value
+        with open('achrolab/calibdata/measurements/resolution_monitor' +
+                time.strftime("%Y%m%d_%H%M") + '.txt', 'w') as calibfile:
 
-        tristim = (c_float * TRISTIMULUS_SIZE)() # memory to where EyeOne
-                                                 # Pro saves TriStim.
+            print("Starting measurement...")
 
-        for color in colorlist:
-            patch_stim.setColor(color, colorSpace=colorSpace)
-            print(color)
-            patch_stim.draw()
-            win.flip()
+            xyY_list = list() # saves the measured xyY value
 
-            time.sleep(imi) # to give EyeOne Pro time to adapt and to
-                            # reduce carry-over effects
+            tristim = (c_float * TRISTIMULUS_SIZE)() # memory to where EyeOne
+                                                     # Pro saves TriStim.
 
-            if(eye_one.I1_TriggerMeasurement() != eNoError):
-                print("Measurement failed for color %s ." %str(color))
-            if(eye_one.I1_GetTriStimulus(tristim, 0) != eNoError):
-                print("Failed to get TriStimulus for color %s ."
-                        %str(color))
-            xyY_list.append(list(tristim))
+            for color in colorlist:
+                patch_stim.setColor(color, colorSpace=colorSpace)
+                print(color)
+                patch_stim.draw()
+                win.flip()
 
+                time.sleep(imi) # to give EyeOne Pro time to adapt and to
+                                # reduce carry-over effects
+
+                if(eye_one.I1_TriggerMeasurement() != eNoError):
+                    print("Measurement failed for color %s ." %str(color))
+                if(eye_one.I1_GetTriStimulus(tristim, 0) != eNoError):
+                    print("Failed to get TriStimulus for color %s ."
+                            %str(color))
+                xyY_list.append(list(tristim))
+
+                if isinstance(color, int):
+                    calibfile.write(str(color) + ", " +
+                            ", ".join([str(x) for x in tristim]) +
+                            "\n")
+                else:
+                    calibfile.write(", ".join([str(x) for x in color]) +
+                            ", " + ", ".join([str(x) for x in tristim]) +
+                            "\n")
         print("Measurement finished.")
-        calibfile = open('achrolab/calibdata/measurements/resolution_monitor' +
-                time.strftime("%Y%m%d_%H%M") + '.txt', 'w')
-        if isinstance(colorlist[0], int):
-            for i in range(len(xyY_list)):
-                calibfile.write(str(colorlist[i]) + ", " +
-                    ", ".join([str(x) for x in xyY_list[i]]) +
-                    "\n")
-        else:
-            for i in range(len(xyY_list)):
-                calibfile.write(", ".join([str(x) for x in colorlist[i]]) +
-                    ", ".join([str(x) for x in xyY_list[i]]) +
-                    "\n")
+
 
 if(__name__=="__main__"):
 
     #patch_stim_value_list = [x/127.5 - 1 for x in range(120,130)]
+    #patch_stim_rgb = (122,123,124)
     patch_stim_rgb = list()
     for r in range(100,150):
         for g in range(100,150):
