@@ -24,7 +24,7 @@ from ctypes import c_float
 eye_one = EyeOne() #dummy=True)
 
 def getDepth(colorlist, imi=0.5, screen=0, colorSpace='rgb'):
-        """get the resolution of monitor with colors in colorlist.
+        """get the depth of monitor with colors in colorlist.
         EyeOne Pro should be connected to the computer. 
         * colorlist -- a list of PatchStim values
         * imi -- inter measurement interval."""
@@ -73,7 +73,7 @@ def getDepth(colorlist, imi=0.5, screen=0, colorSpace='rgb'):
         while(eye_one.I1_KeyPressed() != eNoError):
             time.sleep(0.01)
 
-        with open('achrolab/calibdata/measurements/resolution_monitor' +
+        with open('achrolab/calibdata/measurements/depth_monitor' +
                 time.strftime("%Y%m%d_%H%M") + '.txt', 'w') as calibfile:
 
             print("Starting measurement...")
