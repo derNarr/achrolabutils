@@ -1,0 +1,8 @@
+*.pyc
+*.pdf
+*.pkl
+*.csv
+*.RData
+*.swp
+EyeOne.dll
+
