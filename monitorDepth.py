@@ -18,16 +18,13 @@ from achrolab.eyeone.EyeOneConstants import  (I1_MEASUREMENT_MODE,
                                     TRISTIMULUS_SIZE)
 
 from psychopy import visual, core
-#import rpy2.robjects as robjects
 import time,pickle
 from ctypes import c_float
 
-# want to run R-commands with R("command")
-#R = robjects.r
 eye_one = EyeOne() #dummy=True)
 
-def getResolution(colorlist, imi=0.5, screen=0, colorSpace='rgb'):
-        """get the resolution of monitor with colors in colorlist.
+def getDepth(colorlist, imi=0.5, screen=0, colorSpace='rgb'):
+        """get the depth of monitor with colors in colorlist.
         EyeOne Pro should be connected to the computer. 
         * colorlist -- a list of PatchStim values
         * imi -- inter measurement interval."""
@@ -76,7 +73,7 @@ def getResolution(colorlist, imi=0.5, screen=0, colorSpace='rgb'):
         while(eye_one.I1_KeyPressed() != eNoError):
             time.sleep(0.01)
 
-        with open('achrolab/calibdata/measurements/resolution_monitor' +
+        with open('achrolab/calibdata/measurements/depth_monitor' +
                 time.strftime("%Y%m%d_%H%M") + '.txt', 'w') as calibfile:
 
             print("Starting measurement...")
@@ -126,5 +123,5 @@ if(__name__=="__main__"):
     mywin = visual.Window(size=(2048,1536), monitor='mymon',
                 color=(1,1,1), screen=1, colorSpace='rgb')
 
-    getResolution(patch_stim_rgb, imi=0.5, screen=1, colorSpace='rgb255')
+    getDepth(patch_stim_rgb, imi=0.5, screen=1, colorSpace='rgb255')
     
