@@ -118,7 +118,7 @@ if(__name__=="__main__"):
     #patch_stim_value_list = [x/127.5 - 1 for x in range(120,130)]
     #patch_stim_rgb = (122,123,124)
     patch_stim_rgb = list()
-    for r in range(100,150):
+    for r in range(109,150):
         for g in range(100,150):
             for b in range(100,150):
                 patch_stim_rgb.append( (r,g,b) )
