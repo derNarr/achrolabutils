@@ -6,7 +6,7 @@
 #
 # content: (1) Read data
 #
-# last mod: 2011-11-15, NU
+# last mod: 2011-11-16, NU
 
 ###### (1) Read data ######
 
@@ -23,13 +23,13 @@ names(dat) <- c("R","G","B","x","y","Y")
 
 plot(dat$Y)
 
-dat[dat$R == dat$G & dat$G == dat$B,]
+dat3 <- dat[dat$R == dat$G & dat$G == dat$B,]
+plot(dat3$Y)
 
 dat2 <- dat[order(dat$Y),]
 
 plot(dat2$Y)
-plot(round(dat2$Y[10000:10100], 2))
-# --> what's happening here?
+plot(round(dat2$Y[22000:22700], 2))
 
 # TODO 
 # analytical plots
