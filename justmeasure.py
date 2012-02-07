@@ -15,7 +15,7 @@ from achrolab.eyeone import EyeOne, EyeOneConstants
 #############################
 #   Measurement values   ####
 #############################
-measurements = 1000      ####
+measurements = 5000      ####
 imi = 0.5                ####
 #############################
 #   File Information: Short information about what exactly you are measuring
@@ -23,9 +23,22 @@ info = "Measuring tubes after plugging in"
 #############################
 
 # make measurements to a list for iterations
-measurements = range(0,measurements)
+measurements = range(measurements+1)
 
 EyeOne = EyeOne.EyeOne() # EyeOne Object
+
+# set EyeOne Pro variables
+if(EyeOne.I1_SetOption(EyeOneConstants.I1_MEASUREMENT_MODE,
+    EyeOneConstants.I1_SINGLE_EMISSION) ==
+        EyeOneConstants.eNoError):
+    print("Measurement mode set to single emission.")
+else:
+    print("Failed to set measurement mode.")
+if(EyeOne.I1_SetOption(EyeOneConstants.COLOR_SPACE_KEY, EyeOneConstants.COLOR_SPACE_CIExyY) ==
+        EyeOneConstants.eNoError):
+    print("Color space set to CIExyY.")
+else:
+    print("Failed to set color space.")
 
 # Initialization of spectrum and colorspace
 colorspace = (c_float * EyeOneConstants.TRISTIMULUS_SIZE)()
@@ -63,13 +76,15 @@ for i in measurements:
         print("Failed to get spectrum.")
     else:
         print("Spectrum: " + str(spectrum[:]) + "\n")
-        spec_list.append(spectrum)
+        spec_list.append(spectrum[:])
     time.sleep(imi)
 
 # Write justmeasure file containing the data
 with open("justmeasure_" + time.strftime("%Y%m%d_%H%M") + ".txt", "w") as f:
-    f.write("Spectrum for " + measurements.pop() + " measurements with " + imi + " intervall\n")
-    f.write("Information: " + info + "\n\n")
+    f.write("Spectrum for " + str(measurements.pop()) + " measurements with "
+            + str(imi) + " intervall\n")
+    f.write("Information: " + str(info) + "\n\n")
     for i in measurements:
-        f.write(spec_list[i] + "\n")
+        f.write(str(spec_list[i]))
+        f.write("\n")
 
