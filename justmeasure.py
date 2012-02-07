@@ -15,7 +15,7 @@ from achrolab.eyeone import EyeOne, EyeOneConstants
 #############################
 #   Measurement values   ####
 #############################
-measurement = 10#5000      ####
+measurement = 5000      ####
 imi = 0.5                ####
 #############################
 #   File Information: Short information about what exactly you are measuring
