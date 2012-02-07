@@ -16,6 +16,8 @@ from grey_dict import grey_dict
 
 image = np.repeat(np.array(grey_dict.values(), ndmin=3), 1024, 0)
 
+image = np.uint8(image)
+
 pylab.imshow(image)
 pylab.show()
 
