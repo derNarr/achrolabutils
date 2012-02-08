@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
-# ./achrolabutils/monitorDepth.py
+# ./achrolabutils/monitorDepth_imshow.py
 #
-# (c) 2010 Konstantin Sering <konstantin.sering [aet] gmail.com> und Nora
+# (c) 2012 Konstantin Sering <konstantin.sering [aet] gmail.com> und Nora
 # Umbach <nora.umbach@web.de>
 # GPL 3.0+ or (cc) by-sa (http://creativecommons.org/licenses/by-sa/3.0/)
 #
-# last mod 2011-11-14, KS
+# last mod 2012-02-07, KS
 
 from achrolab.eyeone.EyeOne import EyeOne
 from achrolab.eyeone.EyeOneConstants import  (I1_MEASUREMENT_MODE, 
@@ -20,13 +20,16 @@ from achrolab.eyeone.EyeOneConstants import  (I1_MEASUREMENT_MODE,
 from psychopy import visual, core
 import time,pickle
 from ctypes import c_float
+import pylab
+import numpy as np
+from grey_dict import grey_dict
 
 eye_one = EyeOne() #dummy=True)
 
-def getDepth(colorlist, imi=0.5, screen=0, colorSpace='rgb', n=1):
+def getDepth_imshow(colorlist, imi=0.5, n=1):
         """get the depth of monitor with colors in colorlist.
         EyeOne Pro should be connected to the computer. 
-        * colorlist -- a list of PatchStim values
+        * colorlist -- a color list
         * imi -- inter measurement interval.
         * n is the number of samples per color"""
 
@@ -57,16 +60,11 @@ def getDepth(colorlist, imi=0.5, screen=0, colorSpace='rgb', n=1):
             return
 
         ## measurement
-        win = visual.Window(size=(2048,1536), color=0.4, monitor='mymon',
-                screen=screen, colorSpace=colorSpace)
+        image = np.repeat(np.repeat(np.array([255,255,255], ndmin=3,
+            dtype=np.uint8), 1600, 0), 1200, 1)
+        pylab.imshow(image)
+        pylab.show()
 
-        sizeSur = 20
-        #pos = sizeSur/2 + 0.02
-        patch_stim = visual.PatchStim(win, units='deg', size=sizeSur,
-                pos=[0,0], sf=0, color=-0.1450980, colorSpace=colorSpace)
-        patch_stim.setColor(-0.5, colorSpace=colorSpace)
-        patch_stim.draw()
-        win.flip()
 
         # prompt for click on button of EyeOne Pro
         print("\nPlease put EyeOne-Pro in measurement position and hit"
@@ -88,10 +86,11 @@ def getDepth(colorlist, imi=0.5, screen=0, colorSpace='rgb', n=1):
 
             for color in colorlist:
                 for i in range(n):
-                    patch_stim.setColor(color, colorSpace=colorSpace)
+                    image = np.repeat(np.repeat(np.array(color,
+                        ndmin=3, dtype=np.uint8), 1600, 0), 1200, 1)
+                    pylab.imshow(image)
+                    pylab.show()
                     print(color)
-                    patch_stim.draw()
-                    win.flip()
 
                     time.sleep(imi) # to give EyeOne Pro time to adapt and to
                                     # reduce carry-over effects
@@ -130,10 +129,9 @@ if(__name__=="__main__"):
     #            patch_stim_rgb.append( (r,g,b) )
 
     from grey_dict import grey_dict
-    patch_stim_rgb = grey_dict.values()
+    
+    greylist = grey_dict.values()
+    greylist = greylist[720:730]
 
-    mywin = visual.Window(size=(2048,1536), monitor='mymon',
-                color=(1,1,1), screen=1, colorSpace='rgb')
-
-    getDepth(patch_stim_rgb, imi=0.5, screen=1, colorSpace='rgb255', n=5)
+    getDepth_imshow(greylist, imi=2.5, n=5)
     

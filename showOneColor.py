@@ -18,6 +18,23 @@ mywin = visual.Window(size=(2048,1536), monitor='mymon',
                 color=(0,0,0), screen=1)
 mon = Monitor(eye_one, mywin)
 
+## background from Exp I
+bg = 0.301960784314
+voltages = (1592, 2316, 2234)
+mon.setPatchStimColor(bg)
+
+wasco.wasco_outportW(boardId, DAOUT3_16, voltages[0])
+wasco.wasco_outportW(boardId, DAOUT1_16, voltages[1])
+wasco.wasco_outportW(boardId, DAOUT2_16, voltages[2])
+
+
+# color170
+#mon.setPatchStimColor(0.333333333333)
+#wasco.wasco_outportW(boardId, DAOUT3_16, 1762)
+#wasco.wasco_outportW(boardId, DAOUT1_16, 2535)
+#wasco.wasco_outportW(boardId, DAOUT2_16, 2277)
+
+
 # color170
 #mon.setPatchStimColor(0.333333333333)
 #wasco.wasco_outportW(boardId, DAOUT3_16, 1762)
