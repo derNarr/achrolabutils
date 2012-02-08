@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
-# ./achrolabutils/monitorDepth_imshow.py
+# ./achrolabutils/monitorDepth_pyglet.py
 #
 # (c) 2010 Konstantin Sering <konstantin.sering [aet] gmail.com> und Nora
 # Umbach <nora.umbach@web.de>
@@ -17,16 +17,24 @@ from achrolab.eyeone.EyeOneConstants import  (I1_MEASUREMENT_MODE,
                                     SPECTRUM_SIZE,
                                     TRISTIMULUS_SIZE)
 
-from psychopy import visual, core
-import time,pickle
+import time
 from ctypes import c_float
-import pylab
-import numpy as np
-from grey_dict import grey_dict
+
+import pyglet
+from pyglet import gl
 
 eye_one = EyeOne() #dummy=True)
+ 
+def drawRect(grey, win):
+    gl.glBegin(gl.GL_QUADS)
+    gl.glColor3ub( grey[0], grey[1], grey[2] )
+    gl.glVertex2f(0,0)
+    gl.glVertex2f(win.width, 0)
+    gl.glVertex2f(win.width, win.height)
+    gl.glVertex2f(0, win.height)
+    gl.glEnd()
 
-def getDepth_imshow(colorlist, imi=0.5, n=1):
+def getDepth_pyglet(colorlist, imi=0.5, n=1):
         """get the depth of monitor with colors in colorlist.
         EyeOne Pro should be connected to the computer. 
         * colorlist -- a color list
@@ -60,11 +68,15 @@ def getDepth_imshow(colorlist, imi=0.5, n=1):
             return
 
         ## measurement
-        image = np.repeat(np.repeat(np.array([255,255,255], ndmin=3,
-            dtype=np.uint8), 1600, 0), 1200, 1)
-        pylab.imshow(image)
-        pylab.show()
-
+        XSize = 1280
+        YSize = 1024
+        win = pyglet.window.Window(XSize,YSize)
+        gl.glMatrixMode(gl.GL_PROJECTION)
+        gl.glLoadIdentity()
+        gl.glOrtho(0, XSize, YSize, 0, 0, 1)
+        gl.glMatrixMode(gl.GL_MODELVIEW)
+        drawRect([255, 0, 0], win)
+        win.flip()
 
         # prompt for click on button of EyeOne Pro
         print("\nPlease put EyeOne-Pro in measurement position and hit"
@@ -86,12 +98,11 @@ def getDepth_imshow(colorlist, imi=0.5, n=1):
 
             for color in colorlist:
                 for i in range(n):
-                    image = np.repeat(np.repeat(np.array(color,
-                        ndmin=3, dtype=np.uint8), 1600, 0), 1200, 1)
-                    pylab.imshow(image)
-                    pylab.show()
                     print(color)
-
+                    gl.glLoadIdentity()
+                    gl.glClear(gl.GL_COLOR_BUFFER_BIT)
+                    drawRect(color, win)
+                    win.flip()
                     time.sleep(imi) # to give EyeOne Pro time to adapt and to
                                     # reduce carry-over effects
 
@@ -118,20 +129,11 @@ def getDepth_imshow(colorlist, imi=0.5, n=1):
         print("Measurement finished.")
 
 
-if(__name__=="__main__"):
-
-    #patch_stim_value_list = [x/127.5 - 1 for x in range(120,130)]
-    #patch_stim_rgb = (122,123,124)
-    #patch_stim_rgb = list()
-    #for r in range(109,150):
-    #    for g in range(100,150):
-    #        for b in range(100,150):
-    #            patch_stim_rgb.append( (r,g,b) )
-
+if(__name__=="__main__"): 
     from grey_dict import grey_dict
     
     greylist = grey_dict.values()
     greylist = greylist[720:730]
 
-    getDepth_imshow(greylist, imi=2.5, n=5)
-    
+    getDepth_pyglet(greylist, imi=2.5, n=5)
+
