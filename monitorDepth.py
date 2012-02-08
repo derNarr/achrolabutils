@@ -23,11 +23,12 @@ from ctypes import c_float
 
 eye_one = EyeOne() #dummy=True)
 
-def getDepth(colorlist, imi=0.5, screen=0, colorSpace='rgb'):
+def getDepth(colorlist, imi=0.5, screen=0, colorSpace='rgb', n=1):
         """get the depth of monitor with colors in colorlist.
         EyeOne Pro should be connected to the computer. 
         * colorlist -- a list of PatchStim values
-        * imi -- inter measurement interval."""
+        * imi -- inter measurement interval.
+        * n is the number of samples per color"""
 
         # set EyeOne Pro variables
         if(eye_one.I1_SetOption(I1_MEASUREMENT_MODE, I1_SINGLE_EMISSION) ==
@@ -82,31 +83,39 @@ def getDepth(colorlist, imi=0.5, screen=0, colorSpace='rgb'):
 
             tristim = (c_float * TRISTIMULUS_SIZE)() # memory to where EyeOne
                                                      # Pro saves TriStim.
+            spectrum = (c_float * SPECTRUM_SIZE)()   # memory to where EyeOne
+                                                     # Pro saves spectrum.
 
             for color in colorlist:
-                patch_stim.setColor(color, colorSpace=colorSpace)
-                print(color)
-                patch_stim.draw()
-                win.flip()
+                for i in range(n):
+                    patch_stim.setColor(color, colorSpace=colorSpace)
+                    print(color)
+                    patch_stim.draw()
+                    win.flip()
 
-                time.sleep(imi) # to give EyeOne Pro time to adapt and to
-                                # reduce carry-over effects
+                    time.sleep(imi) # to give EyeOne Pro time to adapt and to
+                                    # reduce carry-over effects
 
-                if(eye_one.I1_TriggerMeasurement() != eNoError):
-                    print("Measurement failed for color %s ." %str(color))
-                if(eye_one.I1_GetTriStimulus(tristim, 0) != eNoError):
-                    print("Failed to get TriStimulus for color %s ."
-                            %str(color))
-                xyY_list.append(list(tristim))
+                    if(eye_one.I1_TriggerMeasurement() != eNoError):
+                        print("Measurement failed for color %s ." %str(color))
+                    if(eye_one.I1_GetTriStimulus(tristim, 0) != eNoError):
+                        print("Failed to get TriStimulus for color %s ."
+                                %str(color))
+                    if(eye_one.I1_GetSpectrum(spectrum, 0) != eNoError):
+                        print("Failed to get spectrum for color %s ."
+                                %str(color))
+                    xyY_list.append(list(tristim))
 
-                if isinstance(color, int):
-                    calibfile.write(str(color) + ", " +
-                            ", ".join([str(x) for x in tristim]) +
-                            "\n")
-                else:
-                    calibfile.write(", ".join([str(x) for x in color]) +
-                            ", " + ", ".join([str(x) for x in tristim]) +
-                            "\n")
+                    if isinstance(color, int):
+                        calibfile.write(str(color) + ", " +
+                                ", ".join([str(x) for x in tristim]) +
+                                ", ".join([str(x) for x in spectrum]) +
+                                "\n")
+                    else:
+                        calibfile.write(", ".join([str(x) for x in color]) +
+                                ", " + ", ".join([str(x) for x in tristim]) +
+                                ", ".join([str(x) for x in spectrum]) +
+                                "\n")
         print("Measurement finished.")
 
 
@@ -114,14 +123,17 @@ if(__name__=="__main__"):
 
     #patch_stim_value_list = [x/127.5 - 1 for x in range(120,130)]
     #patch_stim_rgb = (122,123,124)
-    patch_stim_rgb = list()
-    for r in range(109,150):
-        for g in range(100,150):
-            for b in range(100,150):
-                patch_stim_rgb.append( (r,g,b) )
+    #patch_stim_rgb = list()
+    #for r in range(109,150):
+    #    for g in range(100,150):
+    #        for b in range(100,150):
+    #            patch_stim_rgb.append( (r,g,b) )
+
+    from grey_dict import grey_dict
+    patch_stim_rgb = grey_dict.values()
 
     mywin = visual.Window(size=(2048,1536), monitor='mymon',
                 color=(1,1,1), screen=1, colorSpace='rgb')
 
-    getDepth(patch_stim_rgb, imi=0.5, screen=1, colorSpace='rgb255')
+    getDepth(patch_stim_rgb, imi=0.5, screen=1, colorSpace='rgb255', n=5)
     
