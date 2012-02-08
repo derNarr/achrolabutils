@@ -109,12 +109,12 @@ def getDepth(colorlist, imi=0.5, screen=0, colorSpace='rgb', n=1):
                     if isinstance(color, int):
                         calibfile.write(str(color) + ", " +
                                 ", ".join([str(x) for x in tristim]) +
-                                ", ".join([str(x) for x in spectrum]) +
+                                ", " + ", ".join([str(x) for x in spectrum]) +
                                 "\n")
                     else:
                         calibfile.write(", ".join([str(x) for x in color]) +
                                 ", " + ", ".join([str(x) for x in tristim]) +
-                                ", ".join([str(x) for x in spectrum]) +
+                                ", " + ", ".join([str(x) for x in spectrum]) +
                                 "\n")
         print("Measurement finished.")
 
