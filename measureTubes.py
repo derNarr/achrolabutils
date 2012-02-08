@@ -17,5 +17,5 @@ tub = CalibTubes(eyeone, calibfile="./achrolab/calibdata/lastParameterTubes.pkl"
 #tub.startMeasurement()
 #tub.measureVoltages()
 
-tub.calibrate()
+tub.calibrate(n=100, each=5)
 
