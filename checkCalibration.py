@@ -6,7 +6,7 @@
 # GPL 3.0+ or (cc) by-sa (http://creativecommons.org/licenses/by-sa/3.0/)
 #
 # created 2011-10-14
-# last mod 2011-10-14 DW
+# last mod 2012-02-08 KS
 #
 
 from psychopy import visual
@@ -20,11 +20,11 @@ eyeone = EyeOne.EyeOne()#dummy=True)
 mywin = visual.Window(size=(2048,1536), monitor='mymon',
         color=(0,0,0), screen=1)    # If you get an UnboundLocalError: set screen=0, default screen=1
 mon = Monitor(eyeone, mywin)
-tub = Tubes(eyeone, calibfile="./achrolab/calibdata/lastParameterTubes.pkl")
+tub = Tubes(eyeone, calibfile="./calibdata/lastParameterTubes.pkl")
 tub.calibrateEyeOne()
 
 color_table = ColorTable(mon, tub)
-color_table.loadFromPickle("./achrolab/calibdata/color_table_20110126_1332.pkl")
+color_table.loadFromPickle("./calibdata/color_table_20110126_1332.pkl")
 
 # measuring part
 color_table.measureColorListMonitor()

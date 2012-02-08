@@ -6,12 +6,12 @@
 #
 # content: (1) Read data
 #
-# last mod: 2011-11-16, NU
+# last mod 2012-02-08 KS
 
 ###### (1) Read data ######
 
 path <- "U:/phd/visionlab/achrolabutils"    # location of achrolabutils
-setwd(paste(path, "/achrolab/calibdata/measurements/", sep=""))
+setwd(paste(path, "/calibdata/measurements/", sep=""))
 files <- dir(pattern="depth_monitor[0-9][0-9].*\\.txt")
 file <- tail(files, 1)  # last measurement
 

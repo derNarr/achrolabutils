@@ -9,7 +9,7 @@
 # laboratory is working again.)
 
 # plot calibration curves and data points for each channel
-pdf("achrolab/calibdata/measurments/calibration_curves_rgb_tubes.pdf",
+pdf("calibdata/measurments/calibration_curves_rgb_tubes.pdf",
     width=9, height=8) 
 
 par(mfrow=c(3,3))

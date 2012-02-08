@@ -6,7 +6,7 @@
 # Umbach <nora.umbach@web.de>
 # GPL 3.0+ or (cc) by-sa (http://creativecommons.org/licenses/by-sa/3.0/)
 #
-# last mod 2011-11-14, KS
+# last mod 2012-02-08 KS
 
 from achrolab.eyeone.EyeOne import EyeOne
 from achrolab.eyeone.EyeOneConstants import  (I1_MEASUREMENT_MODE, 
@@ -74,7 +74,7 @@ def getDepth(colorlist, imi=0.5, screen=0, colorSpace='rgb', n=1):
         while(eye_one.I1_KeyPressed() != eNoError):
             time.sleep(0.01)
 
-        with open('achrolab/calibdata/measurements/depth_monitor' +
+        with open('calibdata/measurements/depth_monitor' +
                 time.strftime("%Y%m%d_%H%M") + '.txt', 'w') as calibfile:
 
             print("Starting measurement...")

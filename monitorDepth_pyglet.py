@@ -84,7 +84,7 @@ def getDepth_pyglet(colorlist, imi=0.5, n=1):
         while(eye_one.I1_KeyPressed() != eNoError):
             time.sleep(0.01)
 
-        with open('achrolab/calibdata/measurements/depth_monitor' +
+        with open('calibdata/measurements/depth_monitor' +
                 time.strftime("%Y%m%d_%H%M") + '.txt', 'w') as calibfile:
 
             print("Starting measurement...")

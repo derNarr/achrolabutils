@@ -6,12 +6,12 @@
 #
 # content: (1) Read data
 #
-# last mod: 2011-11-18 KS
+# last mod 2012-02-08 KS
 
 ###### (1) Read data ######
 
 path <- "/home/kfs-studium/Dokumente/arbeit/PI/achrolabutils"    # location of achrolabutils
-path.data <- paste(path, "/achrolab/calibdata/measurements/monitor/", sep="")
+path.data <- paste(path, "/calibdata/measurements/monitor/", sep="")
 
 setwd(path)
 # dataset 1
