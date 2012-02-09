@@ -80,6 +80,49 @@ for (i in startp:endp){
 
 dev.off()
 
-# luminance functions
-plot(R ~ I(1:5090), dat2)
+###### luminance curves ######
+dat3 <- read.table("achrolabutils/calibdata/measurements/calibration_tubes_raw_20120208_1833.txt", sep=",", skip=1)
+
+names(dat3) <- c("vR","vG","vB","x","y","Y",paste("l", 1:36, sep=""))
+
+
+## fitted with nls()
+plot(Y ~ vR, dat3[1:500,], ylim=c(0, 40), pch=16, col="red",
+    xlab="voltage", ylab="luminance")
+points(Y ~ vG, dat3[501:1000,], col="green", pch=16)
+points(Y ~ vB, dat3[1001:1500,], col="blue", pch=16)
+
+# fit curves
+nlsR <- nls(Y ~ p1 + (p2 - p1)*exp(-exp(p3)*vR), data=dat3[1:500,],
+        start=c(p1=50, p2=-10, p3=-7))
+nlsG <- nls(Y ~ p1 + (p2 - p1)*exp(-exp(p3)*vG), data=dat3[501:1000,],
+        start=c(p1=50, p2=-10, p3=-7))
+nlsB <- nls(Y ~ p1 + (p2 - p1)*exp(-exp(p3)*vB), data=dat3[1001:1500,],
+        start=c(p1=50, p2=-15, p3=-10))
+
+# predicted values
+preR <- predict(nlsR)
+preG <- predict(nlsG)
+preB <- predict(nlsB)
+
+lines(preR ~ vR, dat3[1:500,])
+lines(preG ~ vR, dat3[1:500,])
+lines(preB ~ vR, dat3[1:500,])
+
+## fitted with lm() for medium values
+plot(Y ~ vR, dat3[100:400,], ylim=c(0, 40), pch=16, col="red",
+    xlab="voltage", ylab="luminance")
+points(Y ~ vG, dat3[600:900,], col="green", pch=16)
+points(Y ~ vB, dat3[1100:1400,], col="blue", pch=16)
+
+lmR <- lm(Y ~ vR, dat3[100:400,])
+lmG <- lm(Y ~ vG, dat3[600:900,])
+lmB <- lm(Y ~ vB, dat3[1100:1400,])
+
+abline(lmR)
+abline(lmG)
+abline(lmB)
+# Hmm, don't know. Looks good for blue but that also looks good with
+# nls()...
+
 
