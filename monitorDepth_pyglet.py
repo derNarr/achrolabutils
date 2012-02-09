@@ -135,5 +135,5 @@ if(__name__=="__main__"):
     greylist = grey_dict.values()
     greylist = greylist[720:730]
 
-    getDepth_pyglet(greylist, imi=2.5, n=5)
+    getDepth_pyglet(greylist, imi=1, n=5)
 
