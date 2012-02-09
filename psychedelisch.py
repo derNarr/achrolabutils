@@ -7,7 +7,7 @@
 #
 # last mod 2011-05-01, DW
 
-from achrolab.devtubes import Tubes
+from achrolab.tubes import Tubes
 import time 
 from random import randint 
 
@@ -17,8 +17,8 @@ for i in range(1,200):
     color = (randint(0, 0xFFF), randint(0, 0xFFF), randint(0, 0xFFF))
     print("Farbe (rgb): " + str(color) + 
             "Zeit: " + time.strftime("%M:%S"))
-    tubes.setVoltage( color )
+    tubes.setVoltages( color )
     time.sleep(0.3)
     
-tubes.setVoltage( (0,0,0) )
+tubes.setVoltages( (0,0,0) )
 
