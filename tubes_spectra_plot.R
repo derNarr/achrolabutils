@@ -1,4 +1,4 @@
-
+# this script should be looked at together with depth_monitor_plot.R
 
 datL <- readLines("calibration_tubes_raw20120206_1653.txt")
 
@@ -9,6 +9,7 @@ for (i in seq(1, length(raw), 42)){
     dat2 <- rbind(dat2, raw[i:(i+41)])
     }
 dat2 <- as.data.frame(dat2)
+names(dat2) <- c("vR","vG","vB","x","y","Y",paste("l", 1:36, sep=""))
 
 plot(as.numeric(dat[1,7:42]), type="l")
 ## three separat plots
@@ -78,4 +79,7 @@ for (i in startp:endp){
 }
 
 dev.off()
+
+# luminance functions
+plot(R ~ I(1:5090), dat2)
 
