@@ -23,7 +23,7 @@ from ctypes import c_float
 
 eye_one = EyeOne() #dummy=True)
 
-def getDepth(colorlist, win=None, imi=0.5, screen=1, colorSpace='rgb', n=1):
+def getDepth(colorlist, win=None, imi=0.5, screen=1, colorSpace='rgb255', n=1):
         """get the depth of monitor with colors in colorlist.
         EyeOne Pro should be connected to the computer. 
         * colorlist -- a list of PatchStim values
@@ -148,10 +148,10 @@ if(__name__=="__main__"):
 
     ## all greys on EIZO GS320
     import eizoGS320
-    patch_stim_rgb = [eizoGS320.encode_color(x, x) for x in range(1024)]
+    patch_stim_rgb = [eizoGS320.encode_color(x, x) for x in range(620,630)]
 
     mywin = visual.Window(size=(1024,1536), monitor='mymon',
                 color=(1,1,1), screen=0, colorSpace='rgb')
 
-    getDepth(patch_stim_rgb, win=mywin, imi=0.5, n=5)
+    getDepth(patch_stim_rgb, win=mywin, imi=0.5, colorSpace='rgb255', n=5)
 
