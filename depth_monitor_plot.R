@@ -1,6 +1,6 @@
 # this script only works with some data from tubes_spectra_plot.R
 
-dat <- read.table("calibdata/measurements/depth_monitor20120210_0805.txt", sep=",")
+dat <- read.table("calibdata/measurements/depth_monitor20120210_0819.txt", sep=",")
 
 names(dat) <- c("R","G","B","x","y","Y",paste("l", 1:36, sep=""))
 
