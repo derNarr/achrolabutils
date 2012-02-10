@@ -23,10 +23,11 @@ from ctypes import c_float
 
 eye_one = EyeOne() #dummy=True)
 
-def getDepth(colorlist, imi=0.5, screen=0, colorSpace='rgb', n=1):
+def getDepth(colorlist, win=None, imi=0.5, screen=0, colorSpace='rgb', n=1):
         """get the depth of monitor with colors in colorlist.
         EyeOne Pro should be connected to the computer. 
         * colorlist -- a list of PatchStim values
+        * win -- psychopy.visual.Window instance or None
         * imi -- inter measurement interval.
         * n is the number of samples per color"""
 
@@ -57,12 +58,12 @@ def getDepth(colorlist, imi=0.5, screen=0, colorSpace='rgb', n=1):
             return
 
         ## measurement
-        win = visual.Window(size=(2048,1536), color=0.4, monitor='mymon',
-                screen=screen, colorSpace=colorSpace)
+        if not win:
+            win = visual.Window(size=(800,600), color=0.4, monitor='mymon',
+                    screen=screen, colorSpace=colorSpace)
 
-        sizeSur = 20
         #pos = sizeSur/2 + 0.02
-        patch_stim = visual.PatchStim(win, units='deg', size=sizeSur,
+        patch_stim = visual.PatchStim(win, units='norm', size=(2,2),
                 pos=[0,0], sf=0, color=-0.1450980, colorSpace=colorSpace)
         patch_stim.setColor(-0.5, colorSpace=colorSpace)
         patch_stim.draw()
@@ -129,11 +130,28 @@ if(__name__=="__main__"):
     #        for b in range(100,150):
     #            patch_stim_rgb.append( (r,g,b) )
 
-    from grey_dict import grey_dict
-    patch_stim_rgb = grey_dict.values()
+    #from grey_dict import grey_dict
+    #patch_stim_rgb = grey_dict.values()
 
-    mywin = visual.Window(size=(2048,1536), monitor='mymon',
+
+    ## Code to check for significant bit on the left side of the EIZO
+    ## GS320 monitor
+    #patch_stim_rgb = list()
+    #for b in (0,1,2,4,8,16,32,64,128):
+    #    patch_stim_rgb.append( (0,180,b) )
+
+    ## Code to check for significant bit on the right side of the EIZO
+    ## GS320 monitor
+    #patch_stim_rgb = list()
+    #for b in (0,1,2,4,8,16,32,64,128):
+    #    patch_stim_rgb.append( (180,0,b) )
+
+    ## all greys on EIZO GS320
+    import eizoGS320
+    patch_stim_rgb = [eizoGS320.encode_color(x, x) for x in range(720,730)]
+
+    mywin = visual.Window(size=(1024,1536), monitor='mymon',
                 color=(1,1,1), screen=1, colorSpace='rgb')
 
-    getDepth(patch_stim_rgb, imi=0.5, screen=1, colorSpace='rgb255', n=5)
-    
+    getDepth(patch_stim_rgb, win=mywin, imi=0.5, screen=1, colorSpace='rgb255', n=5)
+

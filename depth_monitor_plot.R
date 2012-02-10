@@ -1,6 +1,6 @@
 # this script only works with some data from tubes_spectra_plot.R
 
-dat <- read.table("calibdata/measurements/depth_monitor20120208_1918.txt", sep=",")
+dat <- read.table("calibdata/measurements/depth_monitor20120210_0805.txt", sep=",")
 
 names(dat) <- c("R","G","B","x","y","Y",paste("l", 1:36, sep=""))
 
@@ -12,7 +12,6 @@ Ymean <- with(dat, tapply(Y, grey, mean))
 plot(Ymean)
 plot(dat$Y)
 
-<<<<<<< HEAD
 ## monitor
 startp <- 0
 endp <- 2700
@@ -22,10 +21,8 @@ plot(as.numeric(dat[1,7:42]) ~ I(seq(390, 740, 10)), type="l",
 for (i in startp:endp){
     lines(as.numeric(dat[i,7:42]) ~ I(seq(390, 740, 10)), col=lcolor[i])
 }
-=======
 # One Spectrum
 plot(as.numeric(dat[1,7:42]) ~ I(1:36), type="l")
->>>>>>> f18dc06c6aa4fe6de97d840a48688529fc6c2351
 
 ## tubes
 # red
