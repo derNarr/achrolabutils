@@ -151,7 +151,7 @@ if(__name__=="__main__"):
     patch_stim_rgb = [eizoGS320.encode_color(x, x) for x in range(1024)]
 
     mywin = visual.Window(size=(1024,1536), monitor='mymon',
-                color=(1,1,1), screen=1, colorSpace='rgb')
+                color=(1,1,1), screen=0, colorSpace='rgb')
 
-    getDepth(patch_stim_rgb, win=mywin, imi=0.5, screen=1, colorSpace='rgb255', n=5)
+    getDepth(patch_stim_rgb, win=mywin, imi=0.5, n=5)
 
