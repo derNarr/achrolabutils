@@ -23,7 +23,7 @@ from ctypes import c_float
 
 eye_one = EyeOne() #dummy=True)
 
-def getDepth(colorlist, win=None, imi=0.5, screen=0, colorSpace='rgb', n=1):
+def getDepth(colorlist, win=None, imi=0.5, screen=1, colorSpace='rgb', n=1):
         """get the depth of monitor with colors in colorlist.
         EyeOne Pro should be connected to the computer. 
         * colorlist -- a list of PatchStim values
