@@ -28,10 +28,10 @@ bg.draw()
 stim.draw()
 
 # capture everything (one time):
-screenshot = visual.BufferImageStim(win=mywin)
+#screenshot = visual.BufferImageStim(mywin)
 
 # render to screen (fast, do many times):
-screenshot.draw()  # fast; can change orientation (.ori) or x,y location (._position)
+#screenshot.draw()  # fast; can change orientation (.ori) or x,y location (._position)
 mywin.flip()
 
 core.wait(30.0)
