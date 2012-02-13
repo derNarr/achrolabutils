@@ -141,9 +141,61 @@ lines(Y ~ vB, dat3, pch=16, lwd=2)
 
 # are 3 channels additive?
 Yadd <- dat2[1:100,6] + dat2[101:200,6] + dat2[201:300,6]
+w <- c(1592, 2316, 2234)
+
+guessVoltages <- function(Y) {
+    Yred <- 6.173447/(6.173447+22.92364+4.036948)*Y
+    Ygreen <- 22.92364/(6.173447+22.92364+4.036948)*Y
+    Yblue <- 4.036948/(6.173447+22.92364+4.036948)*Y
+
+    inv <- function(y, p) {-log((y - p[1])/(p[2]-p[1]))/exp(p[3])}
+
+    pR <- summary(nlsR)$par[,1]
+    pG <- summary(nlsG)$par[,1]
+    pB <- summary(nlsB)$par[,1]
+    
+    volR <- inv(Yred,   pR)
+    volG <- inv(Ygreen, pG)
+    volB <- inv(Yblue,  pB)
+    
+    voltages <- data.frame(Y=Y, volR=volR, volG=volG, volB=volB)
+    voltages
+}
+
+Yratio <- dat2[1:100,6] + dat2[101:200,6] + dat2[201:300,6]
 
 lines(Yadd ~ vR, dat3, pch=16, col="grey", lwd=2)
 
 legend(1000, 70, c("measured","sum"), col=c("black","grey"), lty=1, lwd=2,
     bty="n")
+
+predict(nlsR, data.frame(vR=1592))
+# [1] 6.173447
+predict(nlsG, data.frame(vG=2316))
+# [1] 22.92364
+predict(nlsB, data.frame(vB=2234))
+# [1] 4.036948
+
+inv <- function(y, p) {-log((y - p[1])/(p[2]-p[1]))/exp(p[3])}
+
+pR <- summary(nlsR)$par[,1]
+pG <- summary(nlsG)$par[,1]
+pB <- summary(nlsB)$par[,1]
+
+inv(, pR)
+
+
+dat4 <- read.table("depth_monitor20120210_1949.txt", sep=",")
+
+names(dat4) <- c("vR","vG","vB","x","y","Y",paste("l", 1:36, sep=""))
+
+dat4$grey <- rep(620:629, e=5)
+
+dat5 <- aggregate(as.matrix(dat4) ~ grey, dat4, mean)
+
+names(dat5) <- c("grey","vR","vG","vB","x","y","Y",paste("l", 1:36, sep=""))
+
+dat5 <- 
+
+
 
