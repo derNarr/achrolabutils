@@ -7,8 +7,8 @@ import Image
 a = repeat(750, 2048*1536).reshape(1536, 2048)
 
 h = 200
-a_stim = transpose(repeat(repeat([750, 600, 750, 600, 750], [814, h, 20, h,
-    814]), h).reshape(2048, h))
+a_stim = transpose(repeat(repeat([750, 600, 750, 650, 750], [804, h, 40, h,
+    804]), h).reshape(2048, h))
 
 print(a_stim)
 
