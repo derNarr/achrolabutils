@@ -36,7 +36,7 @@ size_sur  = 190   # about 8deg, ca. 5cm
 size_diff = 40
 size_bg   = (2048 - 2*size_sur - size_diff)/2     # 824px
 
-for i in range(3):
+for i in range(len(stim_inf1)):
 
     inf1 = sitm_inf1[i]
     inf2 = sitm_inf2[i]
