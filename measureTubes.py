@@ -59,6 +59,9 @@ def measureTubes(voltages, imi=0.5, each=1):
     while(eyeone.I1_KeyPressed() != eNoError):
         time.sleep(0.01)
 
+    print("WAIT ONE HOUR TO HEAT TUBES, remove code, if tubes are warm.")
+    time.sleep(60*60)
+
     with open('calibdata/measurements/measure_tubes_' +
             time.strftime("%Y%m%d_%H%M") + '.txt', 'w') as calibfile:
         calibfile.write("volR, volG, volB, x, y, Y," +
@@ -96,5 +99,5 @@ if __name__=="__main__":
                 voltages.append( (r,g,b) )
     print(len(voltages))
 
-    voltages = [ (1248, 1634, 1630), (1275, 1683, 1676) ]
+    #voltages = [ (1248, 1634, 1630), (1275, 1683, 1676) ]
     measureTubes( voltages, imi=0.5, each=5 )
