@@ -5,6 +5,7 @@
 *.RData
 *.swp
 *.bmp
+*.png
 EyeOne.dll
 
 
