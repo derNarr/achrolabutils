@@ -8,7 +8,7 @@ dat <- expand.grid(r=color,g=color,b=color)
 # Calculate grey results for all combinations
 dat$grey <- with(dat, r*.299 + g*.587 + b*.114)
 
-# oder data after grey
+# or data after grey
 # (not really necessary)
 dat <- dat[order(dat$grey),]
 
@@ -33,7 +33,7 @@ reslist$GREYint <- round(reslist$grey*1023, 0)
 
 
 # write python code to file
-f <- file("grey10bit.py")
+f <- file("grey_dict.py")
 writeLines( paste("grey_dict = {\n", with(reslist,
 paste(GREYint, ": (", Rint, ",", Gint, ",", Bint, ")", sep="",
 collapse=",\n")), "}\n", sep=""), f)
