@@ -4,6 +4,7 @@
 *.csv
 *.RData
 *.swp
-EyeOne.dll
+*.bmp
+*.png
 
 

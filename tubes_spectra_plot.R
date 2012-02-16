@@ -6,8 +6,10 @@
 # input: calibration_tubes_raw20120206_1653.txt --> auskommentiert
 #        calibration_tubes_raw_20120208_1833.txt
 # output: tubes_spectrum.pdf
+#         luminance_curves.pdf
+#         luminance_curves_zoom.pdf
 #
-# last mod:
+# last mod: Feb/16/2012
 
 ## first measurements, not very good
 # datL <- readLines("calibration_tubes_raw20120206_1653.txt")
@@ -65,7 +67,7 @@ for (i in startp:endp){
 }
 
 ## together in one plot
-pdf("achrolabutils/calibdata/measurements/tubes_spectrum.pdf", width=5,
+pdf("achrolabutils/calibdata/figures/tubes_spectrum.pdf", width=5,
 height=5)
 #svg("tubes_spectrum.svg", width=5, height=5)
 #png("tubes_spectrum.png", width=450, height=450)
@@ -105,10 +107,6 @@ dev.off()
 ###### (2) luminance curves ######
 
 ## fitted with nls()
-plot(Y ~ vR, dat2[1:100,], ylim=c(0, 70), pch=16, col="red",
-    xlab="voltage", ylab="luminance", type="l", lwd=2)
-lines(Y ~ vG, dat2[101:200,], col="green", pch=16, lwd=2)
-lines(Y ~ vB, dat2[201:300,], col="blue", pch=16, lwd=2)
 
 # fit curves
 nlsR <- nls(Y ~ p1 + (p2 - p1)*exp(-exp(p3)*vR), data=dat2[1:100,],
@@ -123,12 +121,9 @@ preR <- predict(nlsR)
 preG <- predict(nlsG)
 preB <- predict(nlsB)
 
-lines(preR ~ vR, dat2[1:100,])
-lines(preG ~ vR, dat2[1:100,])
-lines(preB ~ vR, dat2[1:100,])
 
 ## all three tubes together
-dat3 <- read.table("achrolabutils/calibdata/measurements/calibration_tubes_raw20120210_1050.txt", sep=",", skip=1)
+dat3 <- read.table("achrolabutils/calibdata/measurements/calibration_tubes_raw_20120210_1050.txt", sep=",", skip=1)
 names(dat3) <- c("vR","vG","vB","x","y","Y",paste("l", 1:36, sep=""))
 
 # five measurements per step
@@ -136,8 +131,6 @@ dat3 <- aggregate(as.matrix(dat3[,4:ncol(dat3)]) ~ vR + vG + vB, dat3, mean)
 
 dat3 <- dat3[order(dat3$vR, dat3$vG, dat3$vB),]
 names(dat3) <- c("vR","vG","vB","x","y","Y",paste("l", 1:36, sep=""))
-
-lines(Y ~ vB, dat3, pch=16, lwd=2)
 
 # are 3 channels additive?
 Yadd <- dat2[1:100,6] + dat2[101:200,6] + dat2[201:300,6]
@@ -164,11 +157,6 @@ guessVoltages <- function(Y) {
 
 Yratio <- dat2[1:100,6] + dat2[101:200,6] + dat2[201:300,6]
 
-lines(Yadd ~ vR, dat3, pch=16, col="grey", lwd=2)
-
-legend(1000, 70, c("measured","sum"), col=c("black","grey"), lty=1, lwd=2,
-    bty="n")
-
 predict(nlsR, data.frame(vR=1592))
 # [1] 6.173447
 predict(nlsG, data.frame(vG=2316))
@@ -184,18 +172,45 @@ pB <- summary(nlsB)$par[,1]
 
 inv(, pR)
 
+## plot
+pdf("achrolabutils/calibdata/figures/luminance_curves.pdf", width=4, height=4)
 
-dat4 <- read.table("depth_monitor20120210_1949.txt", sep=",")
+par(mai=c(.8,.8,.1,.1), mgp=c(2.6,1,0))
+plot(Y ~ vR, dat2[1:100,], ylim=c(0, 70), pch=16, col="red",
+    xlab="voltage", ylab="luminance", type="l", lwd=2)
+lines(Y ~ vG, dat2[101:200,], col="green", pch=16, lwd=2)
+lines(Y ~ vB, dat2[201:300,], col="blue", pch=16, lwd=2)
 
-names(dat4) <- c("vR","vG","vB","x","y","Y",paste("l", 1:36, sep=""))
+lines(preR ~ vR, dat2[1:100,], lty=2)
+lines(preG ~ vR, dat2[1:100,], lty=2)
+lines(preB ~ vR, dat2[1:100,], lty=2)
 
-dat4$grey <- rep(620:629, e=5)
+lines(Y ~ vB, dat3, pch=16, lwd=2)
+lines(Yadd ~ vR, dat3, pch=16, col="grey", lwd=2)
 
-dat5 <- aggregate(as.matrix(dat4) ~ grey, dat4, mean)
+legend(1000, 70, c("measured","sum"), col=c("black","grey"), lty=1, lwd=2,
+    bty="n")
 
-names(dat5) <- c("grey","vR","vG","vB","x","y","Y",paste("l", 1:36, sep=""))
+dev.off()
 
-dat5 <- 
+# zoomed in
+pdf("achrolabutils/calibdata/figures/luminance_curves_zoom.pdf", width=4, height=4)
 
+par(mai=c(.8,.8,.1,.1), mgp=c(2.6,1,0))
+plot(Y ~ vR, dat2[1:40,], ylim=c(0, 35), pch=16, col="red",
+    xlab="voltage", ylab="luminance", type="l", lwd=2)
+lines(Y ~ vG, dat2[101:140,], col="green", pch=16, lwd=2)
+lines(Y ~ vB, dat2[201:240,], col="blue", pch=16, lwd=2)
 
+lines(preR[1:40] ~ vR, dat2[1:40,], lty=2)
+lines(preG[1:40] ~ vR, dat2[1:40,], lty=2)
+lines(preB[1:40] ~ vR, dat2[1:40,], lty=2)
+
+lines(Y[1:40] ~ vB[1:40], dat3, pch=16, lwd=2)
+lines(Yadd[1:40] ~ vR[1:40], dat3, pch=16, col="grey", lwd=2)
+
+legend(1000, 35, c("measured","sum"), col=c("black","grey"), lty=1, lwd=2,
+    bty="n")
+
+dev.off()
 

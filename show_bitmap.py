@@ -19,9 +19,8 @@ mywin = visual.Window(size=(1024,1536), monitor='mymon',
 #bitmap.draw()
 #mywin.flip()
 
-bg = visual.SimpleImageStim(mywin, "background.bmp", units="pix")
-#stim = visual.SimpleImageStim(mywin, "stim.bmp", units="pix")
-
+bg = visual.SimpleImageStim(mywin, "background.png", units="pix")
+stim = visual.SimpleImageStim(mywin, "stim0.png", units="pix")
 
 # build up a composite or large visual background (slow, do once):
 bg.draw()
