@@ -14,44 +14,62 @@ from achrolab.monitor import Monitor
 from achrolab.eyeone import EyeOne
 
 eye_one = EyeOne.EyeOne()#dummy=True)
-mywin = visual.Window(size=(2048,1536), monitor='mymon',
-                color=(0,0,0), screen=1)
+mywin = visual.Window(size=(1024,1536), monitor='mymon',
+            color=(1,1,1), screen=0, colorSpace='rgb')
 mon = Monitor(eye_one, mywin)
 
-## background from Exp I
-bg = 0.301960784314
-voltages = (1592, 2316, 2234)
-mon.setPatchStimColor(bg)
+# ## background from Exp I (old lab, old graphics card)
+# bg = 0.301960784314
+# voltages = (1592, 2316, 2234)
+# mon.setPatchStimColor(bg)
+# 
+# wasco.wasco_outportW(boardId, DAOUT3_16, voltages[0])
+# wasco.wasco_outportW(boardId, DAOUT1_16, voltages[1])
+# wasco.wasco_outportW(boardId, DAOUT2_16, voltages[2])
+ 
+## create bitmaps
+bg_list = range(720, 730)
+
+for i in range(len(bg_list)):
+
+    bg = bg_list[i]
+
+    # background that just fills whole monitor with a certain color
+    a_bg = repeat(bg, 2048*1536).reshape(1536, 2048)
+    
+    # transform numpy array so EIZO GS320 can display it in packed pixel modus
+    np_bg = eizoGS320.encode_np_array(a_bg)
+    # create image
+    pil_bg = Image.fromarray(np_bg)
+    # save image
+    pil_bg.save("background" + str(i) + ".bmp")
+
+
+# which color
+id = 0
+
+# set tubes (see find_color.R for details)
+vol = [(1271, 1682, 1666),
+       (1272, 1682, 1673),
+       (1272, 1682, 1673),
+       (1271, 1682, 1670),
+       (1272, 1682, 1673),
+       (1272, 1682, 1673),
+       (1272, 1682, 1673),
+       (1272, 1682, 1673),
+       (1272, 1682, 1673),
+       (1272, 1682, 1673)]
+
+voltages = vol[id]
 
 wasco.wasco_outportW(boardId, DAOUT3_16, voltages[0])
 wasco.wasco_outportW(boardId, DAOUT1_16, voltages[1])
 wasco.wasco_outportW(boardId, DAOUT2_16, voltages[2])
 
-
-# color170
-#mon.setPatchStimColor(0.333333333333)
-#wasco.wasco_outportW(boardId, DAOUT3_16, 1762)
-#wasco.wasco_outportW(boardId, DAOUT1_16, 2535)
-#wasco.wasco_outportW(boardId, DAOUT2_16, 2277)
-
-
-# color170
-#mon.setPatchStimColor(0.333333333333)
-#wasco.wasco_outportW(boardId, DAOUT3_16, 1762)
-#wasco.wasco_outportW(boardId, DAOUT1_16, 2535)
-#wasco.wasco_outportW(boardId, DAOUT2_16, 2277)
-
-# color170
-#mon.setPatchStimColor(0.333333333333)
-#wasco.wasco_outportW(boardId, DAOUT3_16, 1731)
-#wasco.wasco_outportW(boardId, DAOUT1_16, 2480)
-#wasco.wasco_outportW(boardId, DAOUT2_16, 2271)
-
-#color175
-#mon.setPatchStimColor(0.372549019608)
-#wasco.wasco_outportW(boardId, DAOUT3_16, 1777)
-#wasco.wasco_outportW(boardId, DAOUT1_16, 2524)
-#wasco.wasco_outportW(boardId, DAOUT2_16, 2411)
+# show bitmaps
+bg = visual.SimpleImageStim(mywin, "background" + str(id) + ".bmp", units="pix")
+bg.draw()
+mywin.flip()
 
 mouse = event.Mouse(mywin)
 show = True 
