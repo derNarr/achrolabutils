@@ -67,7 +67,7 @@ for (i in startp:endp){
 }
 
 ## together in one plot
-pdf("achrolabutils/calibdata/measurements/tubes_spectrum.pdf", width=5,
+pdf("achrolabutils/calibdata/figures/tubes_spectrum.pdf", width=5,
 height=5)
 #svg("tubes_spectrum.svg", width=5, height=5)
 #png("tubes_spectrum.png", width=450, height=450)
