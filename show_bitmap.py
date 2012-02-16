@@ -12,7 +12,7 @@ from psychopy import visual, core
 
 
 mywin = visual.Window(size=(1024,1536), monitor='mymon',
-            color=(1,1,1), screen=0, colorSpace='rgb')
+            color=(1,0,1), screen=0, colorSpace='rgb')
 
 #bitmap = visual.SimpleImageStim(mywin, "all_grey_eizo.bmp", units="pix")
 
@@ -20,12 +20,12 @@ mywin = visual.Window(size=(1024,1536), monitor='mymon',
 #mywin.flip()
 
 bg = visual.SimpleImageStim(mywin, "background.bmp", units="pix")
-stim = visual.SimpleImageStim(mywin, "stim.bmp", units="pix")
+#stim = visual.SimpleImageStim(mywin, "stim.bmp", units="pix")
 
 
 # build up a composite or large visual background (slow, do once):
 bg.draw()
-stim.draw()
+#stim.draw()
 
 # capture everything (one time):
 #screenshot = visual.BufferImageStim(mywin)

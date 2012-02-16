@@ -11,9 +11,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from devtubes import DevTubes
-from eyeone.EyeOne import EyeOne
-from eyeone.EyeOneConstants import  (I1_MEASUREMENT_MODE, 
+from achrolab.devtubes import DevTubes
+from achrolab.eyeone.EyeOne import EyeOne
+from achrolab.eyeone.EyeOneConstants import  (I1_MEASUREMENT_MODE, 
                                     I1_SINGLE_EMISSION,
                                     eNoError,
                                     COLOR_SPACE_KEY, 
@@ -22,16 +22,6 @@ from eyeone.EyeOneConstants import  (I1_MEASUREMENT_MODE,
                                     TRISTIMULUS_SIZE)
 import time
 from ctypes import c_float
-
-
-#tub = DevTubes()
-#eyeone = EyeOne() #dummy=True)
-#
-#voltages = [1248, 1681, 1675]
-#
-#target_xyY = (0.3, 0.3, 21.0)
-#imi = 0.5
-#each = 5 #number of measurements per voltage
 
 
 def tellme(s, plot):
@@ -50,7 +40,7 @@ def setColorTube(key):
     elif key == 'b':
         return ('blue', 2)
     elif key == 'a':
-        return ('all', 3) #second element is out of range, should not be used!
+        return ('all', None) #second element is out of range, should not be used!
     else:
         pass
 
@@ -72,16 +62,18 @@ def setStepSize(key):
         pass
 
 class SetTubesManual(object):
-    def __init__(self):
+    def __init__(self, voltages=(1224, 1726, 1680), 
+            target_xyY=(0.2982336, 0.3200846, 20.62395)):
+        self.voltages = list(voltages)
+        self.target_xyY = target_xyY
         self.tub = DevTubes()
         self.eyeone = EyeOne()#dummy=True)
-        self.voltages = [1224, 1726, 1680]
-        self.target_xyY = (0.298738896847, 0.320305973291, 20.7235584259)
         self.imi = 0.5
         self.each = 5 #number of measurements per voltage
         self.colortube = ('red', 0)
         self.step = 10
         self.i = 0 # number of measurement
+        self.fig = None
  
         # set EyeOne Pro variables
         if(self.eyeone.I1_SetOption(I1_MEASUREMENT_MODE, I1_SINGLE_EMISSION) ==
@@ -154,7 +146,31 @@ class SetTubesManual(object):
         Starts program to set tubes by hand.
         """
         self.tub.setVoltages(self.voltages)
-        #set figures
+        # open file to write data while manual search
+        with open('./calibdata/measurements/measure_tubes_manual_' +
+                time.strftime("%Y%m%d_%H%M") + '.txt', 'w') as self.calibfile:
+            self.calibfile.write("volR, volG, volB, x, y, Y," +
+                    ", ".join(["l" + str(x) for x in range(1,37)]) + "\n")
+        
+            #set figures
+            print('\n\nWait until first measurement is done.')
+            self.newFigure()
+            print('\n\nManual adjustment of tubes` color\n\n' +
+                  'Press [up] for higher intensity ' +
+                  'or press [down] for lower intensity.\n' +
+                  'To set tube color and step size press the following buttons:\n' +
+                  'Stepsize:\n' + 
+                  ' [1] - 1\n [2] - 5\n [3] - 10\n [4] - 50\n [5] - 100\n' +
+                  'Colortube:\n [r] - Red\n [g] - Green\n [b] - Blue\n [a] - all'
+                  + '\nPress "c" to redraw figure.'
+                  + '\nPress escape to quit')
+            self.stop=False
+            while not self.stop:
+                plt.waitforbuttonpress()
+    
+    def newFigure(self):
+        if self.fig:
+            plt.close(self.fig)
         self.fig = plt.figure(1)
         plt.clf()
         self.plot_xy = plt.subplot(1,2,1)
@@ -162,30 +178,16 @@ class SetTubesManual(object):
         self.plot_xy.plot(self.target_xyY[0], self.target_xyY[1], "rx")
         self.plot_xy.set_aspect(1)
         self.plot_Y = plt.subplot(1,2,2)
-        self.plot_Y.axis([0, 5, 19, 23])
+        self.plot_Y.axis([0, 10, 19, 23])
         self.plot_Y.axhline(y=self.target_xyY[2], color="r", xmin=0,
                 xmax=1000)
         tellme('Get to the red cross', self.plot_xy)
         self.fig.canvas.mpl_connect('key_press_event', self.on_key_press)
+        # reset self.i
+        self.i = 0
+        # measure once to draw current point
+        self.measureVoltage()
        
-        print('\n\nManual adjustment of tubes` color\n\n' +
-              'Press [up] for higher intensity ' +
-              'or press [down] for lower intensity.\n' +
-              'To set tube color and step size press the following buttons:\n' +
-              'Stepsize:\n' + 
-              ' [1] - 1\n [2] - 10\n [3] - 50\n [4] - 200\n [5] - 500\n' +
-              'Colortube:\n [r] - Red\n [g] - Green\n [b] - Blue\n [a] - all')
-        # open file to write data while manual search
-        with open('../calibdata/measurements/measure_tubes_manual_' +
-                time.strftime("%Y%m%d_%H%M") + '.txt', 'w') as self.calibfile:
-            self.calibfile.write("volR, volG, volB, x, y, Y," +
-                    ", ".join(["l" + str(x) for x in range(1,37)]) + "\n")
-            self.stop=False
-            while not self.stop:
-                plt.waitforbuttonpress()
-    
-    
-    
     
     def measureVoltage(self):
         xyY_list = list()
@@ -224,22 +226,23 @@ class SetTubesManual(object):
     def on_key_press(self, event):
         key = event.key
         self.key = key
-        print(key)
+        #print(key)
         if key == 'r' or key == 'g' or key == 'b' or key == 'a':
             self.colortube = setColorTube(key)
-            tellme('Now change ' + self.colortube[0] + ' tubes.',
-                    self.plot_xy)
+            tellme('Now change ' + self.colortube[0] + ' tubes.', self.plot_xy)
         elif key == '1' or key == '2' or key == '3' or key == '4' or key == '5':
             self.step = setStepSize(key)
             tellme('Step size set to ' + str(self.step), self.plot_xy)
         elif key == 'up' or key == 'down':
             self.adjustTube()
+        elif key == 'c':
+            # close and reprint figure
+            self.newFigure()
         elif key == 'escape':
             self.stop = True
 
 
 if __name__ == "__main__":
-
-    man = SetTubesManual()
+    man = SetTubesManual(voltages=(1162, 1755, 1614))
     man.run()
     
