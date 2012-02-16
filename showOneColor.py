@@ -12,6 +12,9 @@ from achrolab.wasco.WascoConstants import DAOUT1_16, DAOUT2_16, DAOUT3_16
 from psychopy import visual,event,core
 from achrolab.monitor import Monitor
 from achrolab.eyeone import EyeOne
+from numpy import *
+import eizoGS320
+import Image
 
 eye_one = EyeOne.EyeOne()#dummy=True)
 mywin = visual.Window(size=(1024,1536), monitor='mymon',
@@ -49,16 +52,16 @@ for i in range(len(bg_list)):
 id = 0
 
 # set tubes (see find_color.R for details)
-vol = [(1271, 1682, 1666),
-       (1272, 1682, 1673),
-       (1272, 1682, 1673),
-       (1271, 1682, 1670),
-       (1272, 1682, 1673),
-       (1272, 1682, 1673),
-       (1272, 1682, 1673),
-       (1272, 1682, 1673),
-       (1272, 1682, 1673),
-       (1272, 1682, 1673)]
+vol = [(1248, 1681, 1675),
+       (1248, 1681, 1675),
+       (1248, 1681, 1675),
+       (1248, 1681, 1675),
+       (1248, 1681, 1675),
+       (1248, 1681, 1675),
+       (1248, 1681, 1675),
+       (1248, 1681, 1675),
+       (1248, 1681, 1675),
+       (1248, 1682, 1670)]
 
 voltages = vol[id]
 
@@ -71,11 +74,13 @@ bg = visual.SimpleImageStim(mywin, "background" + str(id) + ".bmp", units="pix")
 bg.draw()
 mywin.flip()
 
-mouse = event.Mouse(mywin)
-show = True 
-while show:
-    core.wait(0.01)
-    left, middle, right = mouse.getPressed()
-    if left: 
-        core.wait(0.2)
-        show=False
+core.wait(60)
+
+# mouse = event.Mouse(mywin)
+# show = True 
+# while show:
+#     core.wait(0.01)
+#     left, middle, right = mouse.getPressed()
+#     if left: 
+#         core.wait(0.2)
+#         show=False

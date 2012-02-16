@@ -13,7 +13,7 @@ names(tub) <- c("volR","volG","volB","x","y","Y",paste("l", 1:36, sep=""))
 mon0 <- read.table("depth_monitor20120210_1949.txt", sep=",")
 names(mon0) <- c("R","G","B","x","y","Y",paste("l", 1:36, sep=""))
 mon <- aggregate(as.matrix(mon0) ~ R + G + B, mon0, mean)
-for (i in 1:3) tub[,4] <- NULL
+for (i in 1:3) mon[,4] <- NULL
 names(mon) <- c("R","G","B","x","y","Y",paste("l", 1:36, sep=""))
 
 res_x <- NULL
@@ -38,26 +38,84 @@ for (i in 1:10){
 }
 
 
-reslist <- NULL
+
+
 for (i in 1:10){
-    reslist <- rbind(reslist, tub[which.min(sqrt((tub$x - mon$x[i])^2 + (tub$y -
-    mon$y[i])^2 + (tub$Y - mon$Y[i])^2)),])
+    tub[paste("r", i, sep="")] <- sqrt((tub$x - mon$x[i])^2  + (tub$y -
+        mon$y[i])^2)
 }
 
-# > reslist
-#
-#        volR volG volB         x         y        Y 
-# 49429  1271 1682 1666 0.3029619 0.3186396 20.62462 
-# 58780  1272 1682 1673 0.3028470 0.3182797 20.76279 
-# 587801 1272 1682 1673 0.3028470 0.3182797 20.76279 
-# 54773  1271 1682 1670 0.3026479 0.3181430 20.66311 
-# 587802 1272 1682 1673 0.3028470 0.3182797 20.76279 
-# 587803 1272 1682 1673 0.3028470 0.3182797 20.76279 
-# 587804 1272 1682 1673 0.3028470 0.3182797 20.76279 
-# 587805 1272 1682 1673 0.3028470 0.3182797 20.76279 
-# 587806 1272 1682 1673 0.3028470 0.3182797 20.76279 
-# 587807 1272 1682 1673 0.3028470 0.3182797 20.76279 
+epsilon <- 0.0035
 
+reslist <- NULL
+for (i in 1:10){
+    tmp <- tub[tub[paste("r", i, sep="")] < epsilon,]
+    print(paste("tmp dim for grey", i, "is", dim(tmp)))
+    reslist <- rbind(reslist, tmp[which.min(abs(tmp$Y - mon$Y[i])),])
+}
 
+par(mfrow=c(1,2))
+# diagnostic plot xy
+plot(tub$x, tub$y, pch=".", xlim=c(0.296, 0.306))
+points(mon$x, mon$y, pch="x", col="red")
+# and Y
+plot(jitter(rep(1, length(tub$Y))), tub$Y, pch=".", ylim=c(19,21.5))
+abline(h=mon$Y, col="red")
 
+par(mfrow=c(1,3))
+# red
+plot(tub$x, tub$y, type="n", xlim=c(0.296, 0.306))
+points(mon$x, mon$y, pch="x", col="red")
+lcolor <- colorRampPalette(c("black","red"))(length(unique(tub$volR)))
+for (i in 1:length(unique(tub$volR))) {
+    tmp <- tub[tub$volR==unique(tub$volR)[i],]
+    points(tmp$x, tmp$y, col=lcolor[i], pch=".")
+    }
+# green
+plot(tub$x, tub$y, type="n", xlim=c(0.296, 0.306))
+points(mon$x, mon$y, pch="x", col="red")
+lcolor <- colorRampPalette(c("black","green"))(length(unique(tub$volG)))
+for (i in 1:length(unique(tub$volG))) {
+    tmp <- tub[tub$volG==unique(tub$volG)[i],]
+    points(tmp$x, tmp$y, col=lcolor[i], pch=".")
+    }
+# blue
+plot(tub$x, tub$y, type="n", xlim=c(0.296, 0.306))
+points(mon$x, mon$y, pch="x", col="red")
+lcolor <- colorRampPalette(c("black","blue"))(length(unique(tub$volB)))
+for (i in 1:length(unique(tub$volB))) {
+    tmp <- tub[tub$volB==unique(tub$volB)[i],]
+    points(tmp$x, tmp$y, col=lcolor[i], pch=".")
+    }
 
+ell <- function(t, xc=0, yc=0, a=1, b=1/5, phi=0){
+  phi <- ifelse(phi < pi/2, phi, pi - phi)
+  cbind(x = xc + a*cos(t)*cos(phi) - b*sin(t)*sin(phi),
+        y = yc + a*cos(t)*sin(phi) + b*sin(t)*cos(phi))
+}
+
+tub.tmp <- tub
+tub <- tub[tub$volR==1275 & tub$volG==1682,]
+tub <- tub[order(tub$volB),]
+print(dim(tub))
+idx <- seq(1,46,8)
+plot(tub$x, tub$y, type="n")
+lcolor <- colorRampPalette(c("green","red"))(length(idx))
+for (j in 1:length(idx)) {
+    i <- idx[j]
+    points(y ~ x, data=tub[i,], pch="x", col=lcolor[j])
+    volR <- tub$volR[i]
+    volG <- tub$volG[i]
+    volB <- tub$volB[i]
+    tmp <- tub0[tub0$volR==volR & tub0$volG==volG & tub0$volB==volB,]
+    points(y ~ x, data=tmp, col=lcolor[j])
+    xsd <- sd(tmp$x)
+    ysd <- sd(tmp$y)
+    lines(ell(seq(0,2*pi,length.out=100), tub$x[i], tub$y[i], xsd, ysd),
+    col=lcolor[j])
+    }
+tub <- tub.tmp
+rm(tub.tmp)
+    
+
+    
