@@ -12,7 +12,7 @@ from psychopy import visual
 import Image
 
 
-bg = 850
+bg = 621
 
 # background that just fills whole monitor with a certain color
 a_bg = repeat(bg, 2048*1536).reshape(1536, 2048)
@@ -25,7 +25,10 @@ pil_bg = Image.fromarray(np_bg)
 #pil_bg.save("background.bmp")
 pil_bg.save("background.png")
 
-cross = 700
+
+## --> colors between 360 and 445 rgb(90:110, 90:100, xx)
+
+cross = 600
 stim_inf1  = (200, 220, 230)
 stim_sur1  = (650, 670, 700)
 stim_inf2  = (300, 290, 310)
