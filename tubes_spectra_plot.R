@@ -108,13 +108,22 @@ dev.off()
 
 ## fitted with nls()
 
-# fit curves
+# fit curves with non-linear model (Pinheiro and Bates)
 nlsR <- nls(Y ~ p1 + (p2 - p1)*exp(-exp(p3)*vR), data=dat2[1:100,],
         start=c(p1=50, p2=-10, p3=-7))
 nlsG <- nls(Y ~ p1 + (p2 - p1)*exp(-exp(p3)*vG), data=dat2[101:200,],
         start=c(p1=50, p2=-10, p3=-7))
 nlsB <- nls(Y ~ p1 + (p2 - p1)*exp(-exp(p3)*vB), data=dat2[201:300,],
         start=c(p1=50, p2=-15, p3=-10))
+
+# fit polynomial regression
+lmR <- lm(Y ~ vR + I(vR^3), dat2[1:100,])
+lmG <- lm(Y ~ vG + I(vG^3), dat2[101:200,])
+lmB <- lm(Y ~ vB + I(vB^3), dat2[201:300,])
+
+preR <- predict(lmR)
+preG <- predict(lmG)
+preB <- predict(lmB)
 
 # predicted values
 preR <- predict(nlsR)
@@ -181,9 +190,9 @@ plot(Y ~ vR, dat2[1:100,], ylim=c(0, 70), pch=16, col="red",
 lines(Y ~ vG, dat2[101:200,], col="green", pch=16, lwd=2)
 lines(Y ~ vB, dat2[201:300,], col="blue", pch=16, lwd=2)
 
-lines(preR ~ vR, dat2[1:100,], lty=2)
-lines(preG ~ vR, dat2[1:100,], lty=2)
-lines(preB ~ vR, dat2[1:100,], lty=2)
+lines(preR ~ vR, dat2[1:100,], lty=2, col="grey")
+lines(preG ~ vR, dat2[1:100,], lty=2, col="grey")
+lines(preB ~ vR, dat2[1:100,], lty=2, col="grey")
 
 lines(Y ~ vB, dat3, pch=16, lwd=2)
 lines(Yadd ~ vR, dat3, pch=16, col="grey", lwd=2)
