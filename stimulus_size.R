@@ -39,5 +39,9 @@ cm2pix(vis2cm(8))       # 793.4957
 cm2vis(pix2cm(80))      # 0.8078571
 cm2vis(pix2cm(190))     # 1.918513
 
+# table for looking it up
+dat <- data.frame(visual = round(seq(.5, 20, .5),1), cm =
+    round(vis2cm(seq(.5, 20, .5)),2), pixel = round(cm2pix(vis2cm(seq(0.5,
+    20, .5))),0))
 
 
