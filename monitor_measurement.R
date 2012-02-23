@@ -9,5 +9,5 @@ names(dat) <- c("R","G","B","x","y","Y",paste("l", 1:36, sep=""))
 dat <- dat[order(dat$R, dat$G, dat$B),]
 
 plot(dat$Y)
-rownames(dat) <- NULL
+rownames(dat) <- 0:1022
 
