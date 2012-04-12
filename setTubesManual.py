@@ -243,6 +243,7 @@ class SetTubesManual(object):
 
 
 if __name__ == "__main__":
-    man = SetTubesManual(voltages=(1189, 2107, 2056))
+    man = SetTubesManual(voltages=(1561, 2253, 2181), target_xyY=(0.298,
+        0.321, 64.1))
     man.run()
     

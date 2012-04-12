@@ -12,19 +12,19 @@ from psychopy import visual, core
 
 
 mywin = visual.Window(size=(1024,1536), monitor='mymon',
-            color=(155,155,17), screen=1, colorSpace='rgb255')
+            color=(217,217,51), screen=1, colorSpace='rgb255')
 
 #bitmap = visual.SimpleImageStim(mywin, "all_grey_eizo.bmp", units="pix")
 
 #bitmap.draw()
 #mywin.flip()
 
-bg = visual.SimpleImageStim(mywin,
-"Z:\\AG_Heller\\experiments\\same_different\\exp_II\\stimuli\\stim_0_7.png", units="pix")
+#bg = visual.SimpleImageStim(mywin,
+#"Z:\\AG_Heller\\experiments\\same_different\\exp_II\\stimuli\\stim_0_7.png", units="pix")
 #stim = visual.SimpleImageStim(mywin, "stim0.png", units="pix")
 
 # build up a composite or large visual background (slow, do once):
-bg.draw()
+#bg.draw()
 #stim.draw()
 
 # capture everything (one time):
@@ -34,6 +34,6 @@ bg.draw()
 #screenshot.draw()  # fast; can change orientation (.ori) or x,y location (._position)
 mywin.flip()
 
-core.wait(30.0)
+core.wait(600.0)
 
 
