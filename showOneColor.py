@@ -18,7 +18,7 @@ import Image
 tub = DevTubes()
 eye_one = EyeOne.EyeOne()#dummy=True)
 mywin = visual.Window(size=(1024,1536), monitor='mymon',
-            color=(1,0,0), screen=0, colorSpace='rgb')
+            color=(1,0,0), screen=1, colorSpace='rgb')
 mon = Monitor(eye_one, mywin)
 
 # ## background from Exp I (old lab, old graphics card)
@@ -32,44 +32,30 @@ mon = Monitor(eye_one, mywin)
  
 ## create bitmaps
 
-#print("Create Images\nThis can take some time...\n")
-#bg_list = range(620, 622)
-#
-#for i in range(len(bg_list)):
-#
-#    bg = bg_list[i]
-#
-#    # background that just fills whole monitor with a certain color
-#    a_bg = repeat(bg, 2048*1536).reshape(1536, 2048)
-#    
-#    # transform numpy array so EIZO GS320 can display it in packed pixel modus
-#    np_bg = eizoGS320.encode_np_array(a_bg)
-#    # create image
-#    pil_bg = Image.fromarray(np_bg)
-#    # save image
-#    pil_bg.save("background" + str(i) + ".bmp")
-#    print(".")
-#print("Finished.\n")
+print("Create Images\nThis can take some time...\n")
+bg = 699
 
-# which color
-id = 5
+# background that just fills whole monitor with a certain color
+a_bg = repeat(bg, 2048*1536).reshape(1536, 2048)
+
+# transform numpy array so EIZO GS320 can display it in packed pixel modus
+np_bg = eizoGS320.encode_np_array(a_bg)
+# create image
+pil_bg = Image.fromarray(np_bg)
+# save image
+pil_bg.save("same.bmp")
+print(".")
+print("Finished.\n")
 
 # set tubes (see find_color.R for details)
-vol = [(1224, 1726, 1680), 
-       (1191, 1678, 1637),
-       (1192, 1678, 1636),
-       (1193, 1673, 1637),
-       (1194, 1673, 1636),
-       (1162, 1755, 1614)]
-
-voltages = vol[id]
+voltages = (1409, 2176, 2028)
 
 tub.setVoltages(voltages)
 
 # show bitmaps
 #bg = visual.SimpleImageStim(mywin, "background" + str(id) + ".bmp", units="pix")
 print("load image to psychopy\n")
-bg = visual.SimpleImageStim(mywin, "background1.bmp", units="pix")
+bg = visual.SimpleImageStim(mywin, "same.bmp", units="pix")
 print("done.\n\nDraw now!\n")
 bg.draw()
 mywin.flip()

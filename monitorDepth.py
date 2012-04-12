@@ -148,10 +148,10 @@ if(__name__=="__main__"):
 
     ## all greys on EIZO GS320
     import eizoGS320
-    patch_stim_rgb = [eizoGS320.encode_color(x, x) for x in range(1023)]
+    patch_stim_rgb = [eizoGS320.encode_color(x, x) for x in range(697,700)]
 
     mywin = visual.Window(size=(1024,1536), monitor='mymon',
-                color=(1,1,1), screen=0, colorSpace='rgb')
+                color=(1,1,1), screen=1, colorSpace='rgb')
 
     getDepth(patch_stim_rgb, win=mywin, imi=0.5, colorSpace='rgb255', n=5)
 

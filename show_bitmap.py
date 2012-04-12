@@ -12,15 +12,16 @@ from psychopy import visual, core
 
 
 mywin = visual.Window(size=(1024,1536), monitor='mymon',
-            color=(1,0,1), screen=0, colorSpace='rgb')
+            color=(155,155,17), screen=1, colorSpace='rgb255')
 
 #bitmap = visual.SimpleImageStim(mywin, "all_grey_eizo.bmp", units="pix")
 
 #bitmap.draw()
 #mywin.flip()
 
-bg = visual.SimpleImageStim(mywin, "background.png", units="pix")
-stim = visual.SimpleImageStim(mywin, "stim0.png", units="pix")
+bg = visual.SimpleImageStim(mywin,
+"Z:\\AG_Heller\\experiments\\same_different\\exp_II\\stimuli\\stim_0_7.png", units="pix")
+#stim = visual.SimpleImageStim(mywin, "stim0.png", units="pix")
 
 # build up a composite or large visual background (slow, do once):
 bg.draw()
