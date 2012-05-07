@@ -15,11 +15,11 @@ from achrolab.eyeone import EyeOne, EyeOneConstants
 #############################
 #   Measurement values   ####
 #############################
-measurement = 50000      ####
+measurement = 5000      ####
 imi = 0.5                ####
 #############################
 #   File Information: Short information about what exactly you are measuring
-info = "Measuring tubes after plugging in"               
+info = "Measuring tubes after turning off and immediately on again"               
 #############################
 
 # make measurements to a list for iterations
@@ -83,14 +83,14 @@ for i in measurements:
     time.sleep(imi)
 
 # Write justmeasure files containing the data
-with open("justmeasure_spec_" + time.strftime("%Y%m%d_%H%M") + ".txt", "w") as f:
+with open("calibdata/measurements/justmeasure_spec_" + time.strftime("%Y%m%d_%H%M") + ".txt", "w") as f:
     f.write("Spectrum for " + str(measurement) + " measurements with "
             + str(imi) + " intervall\n")
     f.write("Information: " + str(info) + "\n\n")
     for i in measurements:
         f.write(str(spec_list[i]))
         f.write("\n")
-with open("justmeasure_color_" + time.strftime("%Y%m%d_%H%M") + ".txt", "w") as f:
+with open("calibdata/measurements/justmeasure_color_" + time.strftime("%Y%m%d_%H%M") + ".txt", "w") as f:
     f.write("Spectrum for " + str(measurement) + " measurements with "
             + str(imi) + " intervall\n")
     f.write("Information: " + str(info) + "\n\n")
