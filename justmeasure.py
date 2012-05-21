@@ -6,7 +6,7 @@
 # GPL 3.0+ or (cc) by-sa (http://creativecommons.org/licenses/by-sa/3.0/)
 #
 # created 2011-10-14
-# last mod 2012-05-16 14:00 DW
+# last mod 2012-05-21 16:37 DW
 #
 import time
 from ctypes import c_float
@@ -83,7 +83,7 @@ with open("calibdata/measurements/justmeasure_spec_" + time.strftime("%Y%m%d_%H%
                 print("Color Space " + str(colorspace[:]) + "\n")
                 color_list.append(colorspace[:])
                 # Write justmeasure color file containing the data
-                f2.write(str(colorspace[:]))
+                f2.write(str(colorspace[:])[1:-1])
                 f2.write("\n")
         # retrieve spectrum 
             if(EyeOne.I1_GetSpectrum(spectrum, 0) != EyeOneConstants.eNoError):
@@ -92,6 +92,6 @@ with open("calibdata/measurements/justmeasure_spec_" + time.strftime("%Y%m%d_%H%
                 print("Spectrum: " + str(spectrum[:]) + "\n")
                 spec_list.append(spectrum[:])
                 # Write justmeasure spectrum file containing the data
-                f1.write(str(spectrum[:]) + "\n")
+                f1.write(str(spectrum[:])[1:-1] + "\n")
                 f1.write("\n")
             time.sleep(imi)
