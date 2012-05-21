@@ -6,7 +6,7 @@
 # GPL 3.0+ or (cc) by-sa (http://creativecommons.org/licenses/by-sa/3.0/)
 #
 # created 2011-10-14
-# last mod 2012-05-16 14:00 DW
+# last mod 2012-05-21 16:47 DW
 #
 import time
 from ctypes import c_float
@@ -17,6 +17,9 @@ from achrolab.eyeone import EyeOne, EyeOneConstants
 #############################
 measurement = 5000      ####
 imi = 0.5                ####
+# times variable repeats the whole measurement process 'times' times
+# and asks to press the eyeone button before every new time
+times = 1               #####
 #############################
 #   File Information: Short information about what exactly you are measuring
 info = "Measuring tubes after turning off and immediately on again"               
@@ -49,7 +52,6 @@ color_list = []
 # Calibration of EyeOne
 print("\nPlease put EyeOne Pro on calibration plate and press \
 key to start calibration.")
-#TODO: Why does it want 2 keypresses??
 while(EyeOne.I1_KeyPressed() != EyeOneConstants.eNoError):
     time.sleep(0.1)
 if (EyeOne.I1_Calibrate() == EyeOneConstants.eNoError):
@@ -57,41 +59,42 @@ if (EyeOne.I1_Calibrate() == EyeOneConstants.eNoError):
 else:
     print("Calibration failed.")
 
-print("\nPlease put EyeOne Pro in measurement position and press \
-key to start measurement.")
-while(EyeOne.I1_KeyPressed() != EyeOneConstants.eNoError):
-    time.sleep(0.1)
+for n in range(times):
+    print("\nPlease put EyeOne Pro in measurement position and press \
+    key to start measurement.")
+    while(EyeOne.I1_KeyPressed() != EyeOneConstants.eNoError):
+        time.sleep(0.1)
 
-# Start measurement
-print("Starting measurement...")
-with open("calibdata/measurements/justmeasure_spec_" + time.strftime("%Y%m%d_%H%M") + ".txt", "w") as f1:
-    f1.write("Spectrum for " + str(measurement) + " measurements with "
-            + str(imi) + " intervall\n")
-    f1.write("Information: " + str(info) + "\n\n")
-    with open("calibdata/measurements/justmeasure_color_" + time.strftime("%Y%m%d_%H%M") + ".txt", "w") as f2:
-        f2.write("Spectrum for " + str(measurement) + " measurements with "
+    # Start measurement
+    print("Starting measurement...")
+    with open("calibdata/measurements/justmeasure_spec_" + time.strftime("%Y%m%d_%H%M") + ".txt", "w") as f1:
+        f1.write("Spectrum for " + str(measurement) + " measurements with "
                 + str(imi) + " intervall\n")
-        f2.write("Information: " + str(info) + "\n\n")
-        for i in measurements:
-        # Trigger measurement 
-            if(EyeOne.I1_TriggerMeasurement() != EyeOneConstants.eNoError):
-                print("Measurement failed.")
-        # retrieve Color Space
-            if(EyeOne.I1_GetTriStimulus(colorspace, 0) != EyeOneConstants.eNoError):
-                print("Failed to get color space.")
-            else:
-                print("Color Space " + str(colorspace[:]) + "\n")
-                color_list.append(colorspace[:])
-                # Write justmeasure color file containing the data
-                f2.write(str(colorspace[:]))
-                f2.write("\n")
-        # retrieve spectrum 
-            if(EyeOne.I1_GetSpectrum(spectrum, 0) != EyeOneConstants.eNoError):
-                print("Failed to get spectrum.")
-            else:
-                print("Spectrum: " + str(spectrum[:]) + "\n")
-                spec_list.append(spectrum[:])
-                # Write justmeasure spectrum file containing the data
-                f1.write(str(spectrum[:]) + "\n")
-                f1.write("\n")
-            time.sleep(imi)
+        f1.write("Information: " + str(info) + "\n\n")
+        with open("calibdata/measurements/justmeasure_color_" + time.strftime("%Y%m%d_%H%M") + ".txt", "w") as f2:
+            f2.write("Spectrum for " + str(measurement) + " measurements with "
+                    + str(imi) + " intervall\n")
+            f2.write("Information: " + str(info) + "\n\n")
+            for i in measurements:
+            # Trigger measurement 
+                if(EyeOne.I1_TriggerMeasurement() != EyeOneConstants.eNoError):
+                    print("Measurement failed.")
+            # retrieve Color Space
+                if(EyeOne.I1_GetTriStimulus(colorspace, 0) != EyeOneConstants.eNoError):
+                    print("Failed to get color space.")
+                else:
+                    print("Color Space " + str(colorspace[:]) + "\n")
+                    color_list.append(colorspace[:])
+                    # Write justmeasure color file containing the data
+                    f2.write(str(colorspace[:])[1:-1])
+                    f2.write("\n")
+            # retrieve spectrum 
+                if(EyeOne.I1_GetSpectrum(spectrum, 0) != EyeOneConstants.eNoError):
+                    print("Failed to get spectrum.")
+                else:
+                    print("Spectrum: " + str(spectrum[:]) + "\n")
+                    spec_list.append(spectrum[:])
+                    # Write justmeasure spectrum file containing the data
+                    f1.write(str(spectrum[:])[1:-1] + "\n")
+                    f1.write("\n")
+                time.sleep(imi)
