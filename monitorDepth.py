@@ -148,8 +148,8 @@ if(__name__=="__main__"):
 
     ## all greys on EIZO GS320
     import eizoGS320
-    #patch_stim_rgb = [eizoGS320.encode_color(x, x) for x in range(697,700)]
-    patch_stim_rgb = [eizoGS320.encode_color(866, 871),]
+    patch_stim_rgb = [eizoGS320.encode_color(x, x) for x in range(0,1024)]
+    #patch_stim_rgb = [eizoGS320.encode_color(871, 871),]
     print(patch_stim_rgb)
 
     mywin = visual.Window(size=(1024,1536), monitor='mymon',
