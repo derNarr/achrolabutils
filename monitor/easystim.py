@@ -6,7 +6,7 @@
 # GPL 3.0+ or (cc) by-sa (http://creativecommons.org/licenses/by-sa/3.0/)
 #
 # created 2012-05-21
-# last mod 2012-05-21 22:07 DW
+# last mod 2012-05-22 08:47 DW
 #
 """This module contains a class to create and present an infield surround
 stimulus with psychopy."""

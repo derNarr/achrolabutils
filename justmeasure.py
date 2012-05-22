@@ -6,7 +6,7 @@
 # GPL 3.0+ or (cc) by-sa (http://creativecommons.org/licenses/by-sa/3.0/)
 #
 # created 2011-10-14
-# last mod 2012-05-21 16:47 DW
+# last mod 2012-05-22 09:25 DW
 #
 import time
 from ctypes import c_float
@@ -15,14 +15,26 @@ from achrolab.eyeone import EyeOne, EyeOneConstants
 #############################
 #   Measurement values   ####
 #############################
-measurement = 5000      ####
+# measurement: how many measurements should one measurement process include
+# imi: inter measurement intervall
+measurement = 5          ####
 imi = 0.5                ####
-# times variable repeats the whole measurement process 'times' times
-# and asks to press the eyeone button before every new time
-times = 1               #####
 #############################
-#   File Information: Short information about what exactly you are measuring
-info = "Measuring tubes after turning off and immediately on again"               
+# Repeat Measure-Process ####
+#############################
+# times: times variable repeats the whole measurement process 'times' times
+# and asks to press the eyeone button before every new time.
+# recalibrate: if times > 1, you can set 'recalibrate' to true, to recalibrate for every measurement
+# process 
+times = 30               ####
+recalibrate = True       ####
+#############################
+# Measuring Information  ####
+#############################
+# info: file information: short information about what exactly you are measuring
+# prefix: file prefix (in the filename). necessary when times > 1
+info = "Measruring screen 30 times with different calibrations"
+prefix = "30calib"
 #############################
 
 # make measurements to a list for iterations
@@ -49,17 +61,18 @@ spectrum = (c_float * EyeOneConstants.SPECTRUM_SIZE)()
 spec_list = []
 color_list = []
 
-# Calibration of EyeOne
-print("\nPlease put EyeOne Pro on calibration plate and press \
-key to start calibration.")
-while(EyeOne.I1_KeyPressed() != EyeOneConstants.eNoError):
-    time.sleep(0.1)
-if (EyeOne.I1_Calibrate() == EyeOneConstants.eNoError):
-    print("Calibration done.")
-else:
-    print("Calibration failed.")
-
 for n in range(times):
+    if (recalibrate or (EyeOne.I1_TriggerMeasurement() == EyeOneConstants.eDeviceNotCalibrated)):
+        # Calibration of EyeOne
+        print("\nPlease put EyeOne Pro on calibration plate and press \
+        key to start calibration.")
+        while(EyeOne.I1_KeyPressed() != EyeOneConstants.eNoError):
+            time.sleep(0.1)
+        if (EyeOne.I1_Calibrate() == EyeOneConstants.eNoError):
+            print("Calibration done.")
+        else:
+            print("Calibration failed.")
+
     print("\nPlease put EyeOne Pro in measurement position and press \
     key to start measurement.")
     while(EyeOne.I1_KeyPressed() != EyeOneConstants.eNoError):
@@ -67,11 +80,11 @@ for n in range(times):
 
     # Start measurement
     print("Starting measurement...")
-    with open("calibdata/measurements/justmeasure_spec_" + time.strftime("%Y%m%d_%H%M") + ".txt", "w") as f1:
+    with open("calibdata/measurements/justmeasure_" + str(prefix) + "_spec_" + time.strftime("%Y%m%d_%H%M") + ".txt", "w") as f1:
         f1.write("Spectrum for " + str(measurement) + " measurements with "
                 + str(imi) + " intervall\n")
-        f1.write("Information: " + str(info) + "\n\n")
-        with open("calibdata/measurements/justmeasure_color_" + time.strftime("%Y%m%d_%H%M") + ".txt", "w") as f2:
+        f1.write("Information: " + str(n) + ". " + str(info) + "\n\n")
+        with open("calibdata/measurements/justmeasure_" + str(prefix) + "_color_" + time.strftime("%Y%m%d_%H%M") + ".txt", "w") as f2:
             f2.write("Spectrum for " + str(measurement) + " measurements with "
                     + str(imi) + " intervall\n")
             f2.write("Information: " + str(info) + "\n\n")
