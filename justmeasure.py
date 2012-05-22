@@ -6,7 +6,7 @@
 # GPL 3.0+ or (cc) by-sa (http://creativecommons.org/licenses/by-sa/3.0/)
 #
 # created 2011-10-14
-# last mod 2012-05-22 09:25 DW
+# last mod 2012-05-22 10:04 DW
 #
 import time
 from ctypes import c_float
@@ -32,7 +32,7 @@ recalibrate = True       ####
 # Measuring Information  ####
 #############################
 # info: file information: short information about what exactly you are measuring
-# prefix: file prefix (in the filename). necessary when times > 1
+# prefix: file prefix (in the filename)
 info = "Measruring screen 30 times with different calibrations"
 prefix = "30calib"
 #############################
@@ -61,33 +61,35 @@ spectrum = (c_float * EyeOneConstants.SPECTRUM_SIZE)()
 spec_list = []
 color_list = []
 
-for n in range(times):
-    if (recalibrate or (EyeOne.I1_TriggerMeasurement() == EyeOneConstants.eDeviceNotCalibrated)):
-        # Calibration of EyeOne
-        print("\nPlease put EyeOne Pro on calibration plate and press \
-        key to start calibration.")
-        while(EyeOne.I1_KeyPressed() != EyeOneConstants.eNoError):
-            time.sleep(0.1)
-        if (EyeOne.I1_Calibrate() == EyeOneConstants.eNoError):
-            print("Calibration done.")
-        else:
-            print("Calibration failed.")
-
-    print("\nPlease put EyeOne Pro in measurement position and press \
-    key to start measurement.")
-    while(EyeOne.I1_KeyPressed() != EyeOneConstants.eNoError):
-        time.sleep(0.1)
-
     # Start measurement
-    print("Starting measurement...")
-    with open("calibdata/measurements/justmeasure_" + str(prefix) + "_spec_" + time.strftime("%Y%m%d_%H%M") + ".txt", "w") as f1:
-        f1.write("Spectrum for " + str(measurement) + " measurements with "
-                + str(imi) + " intervall\n")
-        f1.write("Information: " + str(n) + ". " + str(info) + "\n\n")
-        with open("calibdata/measurements/justmeasure_" + str(prefix) + "_color_" + time.strftime("%Y%m%d_%H%M") + ".txt", "w") as f2:
-            f2.write("Spectrum for " + str(measurement) + " measurements with "
-                    + str(imi) + " intervall\n")
-            f2.write("Information: " + str(info) + "\n\n")
+with open("calibdata/measurements/justmeasure_" + str(prefix) + "_spec_" + time.strftime("%Y%m%d_%H%M") + ".txt", "w") as f1:
+    f1.write("Spectrum for " + str(measurement) + " measurements with "
+            + str(imi) + " intervall\n" + str(times) + " times with" +
+            "recalibration set " + str(recalibrate) + "\n")
+    f1.write("Information: " + str(info) + "\n\n")
+    with open("calibdata/measurements/justmeasure_" + str(prefix) + "_color_" + time.strftime("%Y%m%d_%H%M") + ".txt", "w") as f2:
+        f2.write("Spectrum for " + str(measurement) + " measurements with "
+                + str(imi) + " intervall\n" + str(times) + " times with " + 
+                "recalibration set " + str(recalibrate) + "\n")
+        f2.write("Information: " + str(info) + "\n\n")
+        for n in range(times):
+            if (recalibrate or (EyeOne.I1_TriggerMeasurement() == EyeOneConstants.eDeviceNotCalibrated)):
+                # Calibration of EyeOne
+                print("\nPlease put EyeOne Pro on calibration plate and press \
+                key to start calibration.")
+                while(EyeOne.I1_KeyPressed() != EyeOneConstants.eNoError):
+                    time.sleep(0.1)
+                if (EyeOne.I1_Calibrate() == EyeOneConstants.eNoError):
+                    print("Calibration done.")
+                else:
+                    print("Calibration failed.")
+
+            print("\nPlease put EyeOne Pro in measurement position and press \
+            key to start measurement.")
+            while(EyeOne.I1_KeyPressed() != EyeOneConstants.eNoError):
+                time.sleep(0.1)
+
+            print("Starting measurement...")
             for i in measurements:
             # Trigger measurement 
                 if(EyeOne.I1_TriggerMeasurement() != EyeOneConstants.eNoError):
