@@ -78,9 +78,9 @@ for (i in startp:endp){
 }
 
 ## together in one plot
-pdf("../figures/tubes_spectrum_20120208.pdf", width=5, height=5)
+#pdf("../figures/tubes_spectrum_20120208.pdf", width=5, height=5)
+png("../figures/tubes_spectrum_20120208.png", width=600, height=600)
 #svg("tubes_spectrum.svg", width=5, height=5)
-#png("tubes_spectrum.png", width=450, height=450)
 par(mai=c(.8,.8,.1,.1), mgp=c(2.7,1,0))
 
 # red
@@ -189,10 +189,11 @@ pR <- summary(nlsR)$par[,1]
 pG <- summary(nlsG)$par[,1]
 pB <- summary(nlsB)$par[,1]
 
-inv(, pR)
+#inv(, pR)
 
 ## plot
-pdf("../figures/luminance_curves_20120210.pdf", width=4, height=4)
+#pdf("../figures/luminance_curves_20120210.pdf", width=4, height=4)
+png("../figures/luminance_curves_20120210.png", width=600, height=600)
 
 par(mai=c(.8,.8,.1,.1), mgp=c(2.6,1,0))
 plot(Y ~ vR, dat2[1:100,], ylim=c(0, 70), pch=16, col="red",
@@ -213,7 +214,8 @@ legend(1000, 70, c("measured","sum"), col=c("black","grey"), lty=1, lwd=2,
 dev.off()
 
 # zoomed in
-pdf("../figures/luminance_curves_zoom_20120210.pdf", width=4, height=4)
+#pdf("../figures/luminance_curves_zoom_20120210.pdf", width=4, height=4)
+png("../figures/luminance_curves_zoom_20120210.png", width=600, height=600)
 
 par(mai=c(.8,.8,.1,.1), mgp=c(2.6,1,0))
 plot(Y ~ vR, dat2[1:40,], ylim=c(0, 35), pch=16, col="red",

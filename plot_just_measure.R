@@ -31,21 +31,25 @@ names(dat) <- c("x","y","Y")
 pdf(paste("../figures/tubes_over_time_", substr(file, 19, 26), ".pdf",
     sep=""), height=2.75, width=10)
 par(mfrow=c(1,4), mai=c(.5,.5,.1,.1), mgp=c(2.7,1,0))
+#png(paste("../figures/tubes_over_time_", substr(file, 19, 26), ".png",
+#    sep=""), height=600, width=600)
 
+#par(new=T, fig=c(0,1,0,1))
 x <- seq(1,length(dat[,1]),by=100)
 plot(dat$Y[x] ~ I(1.7*x/3600), xlab="time [hours]",
     ylab="Luminance", pch=4, ylim=c(16,25))
 
-id <- seq(1,2000,by=20)
-plot(dat$Y[id] ~ I(1.7*id/3600), xlab="time [hours]", ylab="Luminance", pch=4)
-#abline(h=22.2, col="red")
+#par(new=T, fig=c(0.10,0.55,0.35,0.8))
+id <- seq(20,2000,by=20)
+plot(dat$Y[id] ~ I(1.7*id/3600), xlab="", ylab="", pch=4)
+box()
 
+#par(new=T, fig=c(0.50,0.95,0.35,0.8))
 id <- seq(2000,8000,by=50)
-plot(dat$Y[id] ~ I(1.7*id/3600), xlab="time [hours]", ylab="Luminance", pch=4)
-#abline(h=c(22.5, 23.5), col="red")
+plot(dat$Y[id] ~ I(1.7*id/3600), xlab="", ylab="", pch=4)
 
+#par(new=T, fig=c(0.10,0.95,0.10,0.48))
 id <- seq(8000,length(dat[,1]), by=100)
-plot(dat$Y[id] ~ I(1.7*id/3600), xlab="time [hours]", ylab="Luminance", pch=4)
-abline(h=c(23.5, 23.7, 23.9), col="red")
+plot(dat$Y[id] ~ I(1.7*id/3600), xlab="", ylab="", pch=4)
 
 dev.off()
