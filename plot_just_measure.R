@@ -10,7 +10,6 @@
 # plots for behavior of luminance of tubes over time
 #
 # content: (1) Plot most recent measurement
-#          (2) TODO -- what was it again?
 #
 # input: justmeasure_color_20120519_1121.txt
 # output: /figures/tubes_over_time.pdf
@@ -31,57 +30,25 @@ names(dat) <- c("x","y","Y")
 pdf(paste("../figures/tubes_over_time_", substr(file, 19, 26), ".pdf",
     sep=""), height=2.75, width=10)
 par(mfrow=c(1,4), mai=c(.5,.5,.1,.1), mgp=c(2.7,1,0))
+#png(paste("../figures/tubes_over_time_", substr(file, 19, 26), ".png",
+#    sep=""), height=600, width=600)
 
-plot(dat$Y ~ I(1:50000), xlab="# measurement", ylab="Luminance")
+#par(new=T, fig=c(0,1,0,1))
+x <- seq(1,length(dat[,1]),by=100)
+plot(dat$Y[x] ~ I(1.7*x/3600), xlab="time [hours]",
+    ylab="Luminance", pch=4, ylim=c(16,25))
 
-id <- 1:2000
-plot(dat$Y[id] ~ id, xlab="# measurement", ylab="Luminance")
-abline(h=22.2, col="red")
+#par(new=T, fig=c(0.10,0.55,0.35,0.8))
+id <- seq(20,2000,by=20)
+plot(dat$Y[id] ~ I(1.7*id/3600), xlab="", ylab="", pch=4)
+box()
 
-id <- 2000:8000
-plot(dat$Y[id] ~ id, xlab="# measurement", ylab="Luminance")
-abline(h=c(22.5, 23.5), col="red")
+#par(new=T, fig=c(0.50,0.95,0.35,0.8))
+id <- seq(2000,8000,by=50)
+plot(dat$Y[id] ~ I(1.7*id/3600), xlab="", ylab="", pch=4)
 
-id <- 8000:50000
-plot(dat$Y[id] ~ id, xlab="# measurement", ylab="Luminance")
-abline(h=c(23.5, 23.7, 23.9), col="red")
+#par(new=T, fig=c(0.10,0.95,0.10,0.48))
+id <- seq(8000,length(dat[,1]), by=100)
+plot(dat$Y[id] ~ I(1.7*id/3600), xlab="", ylab="", pch=4)
 
 dev.off()
-
-###### (2) TODO -- what was it again? ######
-
-# TODO --> what does it do, is it still useful?
-# Info colorpalette
-plot(1:100, col=colorRampPalette(c("blue","green"))(100), type="p", pch=16)
-
-#setwd("D:/Experimente/achrolabutils")
-
-datL <- readLines("justmeasure_spec_20120208_1120.txt")
-
-datL <- datL[-c(1:3)]
-
-dat <- NULL
-for (i in 1:5000){
-    l <- substr(datL[i], 2, 738)
-    dat <- rbind(dat, as.numeric(unlist(strsplit(l, ","))))
-}
-
-dat <- as.data.frame(dat)
-
-# Plot
-# Startpoint and Endpoint
-startp <- 0
-endp <- 100
-lcolor <- colorRampPalette(c("blue","green"))(endp)
-plot(as.numeric(dat[1,]) ~ I(1:36), type="l", col=lcolor[startp],
-    ylim=c(0,3))
-for (i in startp:endp){
-    points(as.numeric(dat[i,]) ~ I(1:36), type="l", col=lcolor[i])
-}
-
-# Peaks in time
-plot(as.numeric(dat[,18]), col="green", pch=16, ylim=c(.5,2.7))
-points(as.numeric(dat[,24]), col="blue", pch=16)
-points(as.numeric(dat[,7]), col="red", pch=16)
-
-# TODO persp Plot (3D)
