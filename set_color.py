@@ -17,7 +17,7 @@
 
 from psychopy import visual, core
 
-mywin = visual.Window([2048,1536], monitor='mymon', units='deg',
+mywin = visual.Window([2048, 1536], monitor='mymon', units='deg',
         color=255, colorSpace='rgb255', allowGUI=False, screen=1)
 
 surround1 = visual.PatchStim(win=mywin, units='deg', size=8,

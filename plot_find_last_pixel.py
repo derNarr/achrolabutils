@@ -18,7 +18,7 @@
 import numpy as np
 import pylab
 
-red = range(0,256)
+red = range(0, 256)
 green = np.repeat(0, 256)
 blue = np.repeat(0, 256)
 alpha = np.repeat(255, 256)
@@ -27,7 +27,7 @@ image_red_top = np.repeat(np.array(colors, dtype=np.uint8, ndmin=3), 128, 0)
 
 image_red = list()
 
-for bit in (1,2,4,8,16,32,64,128):
+for bit in (1, 2, 4, 8, 16, 32, 64, 128):
     blue = np.repeat(bit, 256)
     colors = [(red[i], green[i], blue[i], alpha[i]) for i in range(len(red))]
     image_red_bot = np.repeat(np.array(colors, dtype=np.uint8, ndmin=3), 128, 0)
@@ -35,7 +35,7 @@ for bit in (1,2,4,8,16,32,64,128):
     image_red.append( np.concatenate( (image_red_top, image_red_bot) ) )
 
 
-pylab.figure(len(image_red), figsize=(5*len(image_red),5))
+pylab.figure(len(image_red), figsize=(5*len(image_red), 5))
 pylab.clf()
 
 for i in range(len(image_red)):

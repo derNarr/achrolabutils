@@ -16,17 +16,17 @@
 # last mod 2011-05-01, DW
 
 from achrolab.devtubes import DevTubes
-from psychopy import visual,event,core
+from psychopy import visual, event, core
 from achrolab.monitor import Monitor
 from achrolab.eyeone import EyeOne
-from numpy import *
+from numpy import repeat
 import eizoGS320
 import Image
 
 tub = DevTubes()
 eye_one = EyeOne.EyeOne()#dummy=True)
-mywin = visual.Window(size=(1024,1536), monitor='mymon',
-            color=(1,0,0), screen=1, colorSpace='rgb')
+mywin = visual.Window(size=(1024, 1536), monitor='mymon',
+            color=(1, 0, 0), screen=1, colorSpace='rgb')
 mon = Monitor(eye_one, mywin)
 
 # ## background from Exp I (old lab, old graphics card)
@@ -61,7 +61,9 @@ voltages = (1409, 2176, 2028)
 tub.setVoltages(voltages)
 
 # show bitmaps
-#bg = visual.SimpleImageStim(mywin, "background" + str(id) + ".bmp", units="pix")
+# bg = visual.SimpleImageStim(mywin, "background" + str(id) + ".bmp",
+# units="pix")
+
 print("load image to psychopy\n")
 bg = visual.SimpleImageStim(mywin, "same.bmp", units="pix")
 print("done.\n\nDraw now!\n")
@@ -78,3 +80,4 @@ core.wait(60)
 #     if left: 
 #         core.wait(0.2)
 #         show=False
+
