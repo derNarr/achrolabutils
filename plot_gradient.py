@@ -2,12 +2,18 @@
 # -*- encoding: utf-8 -*-
 # plot_gradient.py
 #
-# (c) 2012 Konstantin Sering <konstantin.sering [aet] gmail.com>
+# (c) 2010 Konstantin Sering, Nora Umbach, Dominik Wabersich
+# <colorlab[at]psycho.uni-tuebingen.de>
+#
 # GPL 3.0+ or (cc) by-sa (http://creativecommons.org/licenses/by-sa/3.0/)
+#
+# content:
+#
+# input: --
+# output: --
 #
 # created 2012-02-07 KS
 # last mod 2012-02-07 KS
-#
 
 import numpy as np
 import pylab

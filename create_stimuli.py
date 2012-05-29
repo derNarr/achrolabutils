@@ -1,14 +1,24 @@
-# create_stimuli.py
+#!/usr/bin/env Rscript
+# -*- encoding: utf-8 -*-
+# ./create_stimuli.py
 #
-# This script creates infield/surround stimuli for same/different
-# experiments as bitmap files that can be presented on EIZO GS320 with
-# 10 bits.
+# (c) 2010 Konstantin Sering, Nora Umbach, Dominik Wabersich
+# <colorlab[at]psycho.uni-tuebingen.de>
+#
+# GPL 3.0+ or (cc) by-sa (http://creativecommons.org/licenses/by-sa/3.0/)
+#
+# content: This script creates infield/surround stimuli for same/different
+# experiments as bitmap files that can be presented on EIZO GS320 with 10 bits.
+#
+# input: --
+# output: --
+#
+# created
+# last mod 2010-12-09, KS
 
-
-from numpy import *
+from numpy import repeat
 import eizoGS320
 
-from psychopy import visual
 import Image
 
 
@@ -48,20 +58,34 @@ for i in range(len(stim_inf1)):
         sur2 = stim_sur2
 
         # infield/surround configurations
-        line1 = repeat([bg, sur1, bg, sur2, bg],[size_bg, size_sur, size_diff, size_sur, size_bg])
-        line2 = repeat([bg, sur1, inf1, sur1, bg, sur2, inf2, sur2, bg], [size_bg, (size_sur-size_inf)/2, size_inf, (size_sur-size_inf)/2, size_diff, (size_sur-size_inf)/2, size_inf, (size_sur-size_inf)/2, size_bg])
-        line3 = repeat([bg, sur1, inf1, sur1, bg, cross, bg, sur2, inf2, sur2, bg], [size_bg, (size_sur-size_inf)/2, size_inf, (size_sur-size_inf)/2, size_diff/2-1, 2, size_diff/2-1, (size_sur-size_inf)/2, size_inf, (size_sur-size_inf)/2, size_bg])
-        line4 = repeat([bg, sur1, inf1, sur1, bg, sur2, inf2, sur2, bg], [size_bg, (size_sur-size_inf)/2, size_inf, (size_sur-size_inf)/2, size_diff, (size_sur-size_inf)/2, size_inf, (size_sur-size_inf)/2, size_bg])
-        line5 = repeat([bg, sur1, bg, sur2, bg],[size_bg, size_sur, size_diff, size_sur, size_bg])
+        line1 = repeat([bg, sur1, bg, sur2, bg], [size_bg, size_sur,
+                size_diff, size_sur, size_bg])
+        line2 = repeat([bg, sur1, inf1, sur1, bg, sur2, inf2, sur2, bg],
+                [size_bg, (size_sur-size_inf)/2, size_inf,
+                (size_sur-size_inf)/2, size_diff, (size_sur-size_inf)/2,
+                size_inf, (size_sur-size_inf)/2, size_bg])
+        line3 = repeat([bg, sur1, inf1, sur1, bg, cross, bg, sur2, inf2, sur2,
+                bg], [size_bg, (size_sur-size_inf)/2, size_inf,
+                (size_sur-size_inf)/2, size_diff/2-1, 2, size_diff/2-1,
+                (size_sur-size_inf)/2, size_inf, (size_sur-size_inf)/2,
+                size_bg])
+        line4 = repeat([bg, sur1, inf1, sur1, bg, sur2, inf2, sur2, bg],
+                [size_bg, (size_sur-size_inf)/2, size_inf,
+                (size_sur-size_inf)/2, size_diff, (size_sur-size_inf)/2,
+                size_inf, (size_sur-size_inf)/2, size_bg])
+        line5 = repeat([bg, sur1, bg, sur2, bg], [size_bg, size_sur,
+                size_diff, size_sur, size_bg])
 
         # create image array out of the 5 "image-lines"
-        a_stim = repeat([line1,line2,line3,line4,line5], [55,35,10,35,55], axis=0)
+        a_stim = repeat([line1, line2, line3, line4, line5], [55, 35, 10,
+                 35, 55], axis=0)
         
         # check if stimuli have the correct size
         # print(a_bg.shape)       # should be (1536, 2048)
         print(a_stim.shape)     # should be (size_sur, 2048)
 
-        # transform numpy array so EIZO GS320 can display it in packed pixel modus
+        # transform numpy array so EIZO GS320 can display it in packed
+        # pixel modus
         np_stim = eizoGS320.encode_np_array(a_stim)
         
         # create image
