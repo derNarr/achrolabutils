@@ -7,7 +7,7 @@
 #
 # GPL 3.0+ or (cc) by-sa (http://creativecommons.org/licenses/by-sa/3.0/)
 #
-# this script should be looked at together with depth_monitor_plot.R
+# this script should be looked at together with plot_spectra_monitor.R
 #
 # content: (1) spectra for tubes
 #          (2) luminance curves
@@ -78,8 +78,7 @@ for (i in startp:endp){
 }
 
 ## together in one plot
-pdf("../figures/tubes_spectrum.pdf", width=5,
-height=5)
+pdf("../figures/tubes_spectrum_20120208.pdf", width=5, height=5)
 #svg("tubes_spectrum.svg", width=5, height=5)
 #png("tubes_spectrum.png", width=450, height=450)
 par(mai=c(.8,.8,.1,.1), mgp=c(2.7,1,0))
@@ -193,7 +192,7 @@ pB <- summary(nlsB)$par[,1]
 inv(, pR)
 
 ## plot
-pdf("../figures/luminance_curves.pdf", width=4, height=4)
+pdf("../figures/luminance_curves_20120210.pdf", width=4, height=4)
 
 par(mai=c(.8,.8,.1,.1), mgp=c(2.6,1,0))
 plot(Y ~ vR, dat2[1:100,], ylim=c(0, 70), pch=16, col="red",
@@ -214,7 +213,7 @@ legend(1000, 70, c("measured","sum"), col=c("black","grey"), lty=1, lwd=2,
 dev.off()
 
 # zoomed in
-pdf("../figures/luminance_curves_zoom.pdf", width=4, height=4)
+pdf("../figures/luminance_curves_zoom_20120210.pdf", width=4, height=4)
 
 par(mai=c(.8,.8,.1,.1), mgp=c(2.6,1,0))
 plot(Y ~ vR, dat2[1:40,], ylim=c(0, 35), pch=16, col="red",
