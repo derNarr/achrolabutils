@@ -30,7 +30,8 @@ plot(Ymean)
 plot(dat$Y)
 
 ## monitor
-pdf("../figures/monitor_spectrum_20120210.pdf", width=5, height=5)
+#pdf("../figures/monitor_spectrum_20120210.pdf", width=5, height=5)
+png("../figures/monitor_spectrum_20120210.png", width=600, height=600)
 par(mai=c(.8,.8,.1,.1), mgp=c(2.7,1,0))
 
 startp <- 0
