@@ -1,10 +1,22 @@
-# stimulus_size.R
+#!/usr/bin/env Rscript
+# -*- encoding: utf-8 -*-
+# ./stimulus_size.R
+#
+# (c) 2010 Konstantin Sering, Nora Umbach, Dominik Wabersich
+# <colorlab[at]psycho.uni-tuebingen.de>
+#
+# GPL 3.0+ or (cc) by-sa (http://creativecommons.org/licenses/by-sa/3.0/)
 #
 # content: (1) visual angle to cm
 #          (2) cm to pixel
 #          (3) compute stimulus sizes
 #
-# last mod: Feb/22/2012
+# input: --
+# output: --
+#
+# created
+#
+# last mod 2012-02-22, NU
 
 ###### (1) visual angle to cm ######
 vis2cm <- function(alpha, r=120){

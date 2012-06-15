@@ -1,7 +1,14 @@
-# find_color.R
+#!/usr/bin/env Rscript
+# -*- encoding: utf-8 -*-
+# ./find_color.R
+#
+# (c) 2010 Konstantin Sering, Nora Umbach, Dominik Wabersich
+# <colorlab[at]psycho.uni-tuebingen.de>
+#
+# GPL 3.0+ or (cc) by-sa (http://creativecommons.org/licenses/by-sa/3.0/)
 #
 # Find voltages that adjust tubes so that xyY for tubes has a minimum
-# distance from monitor xyY.
+# distance from monitor xyY; "brute force method" to find correct calibration.
 #
 # content: (1) read data for tubes and monitor
 #          (2) find best fit
@@ -11,7 +18,8 @@
 #        depth_monitor20120210_1949.txt
 # output: --
 #
-# last mod: Feb/16/2012, NU
+# created
+# last mod 2012-16-02, NU
 
 ###### (1) read data for tubes and monitor ######
 
@@ -52,7 +60,7 @@ for (i in 1:10){
 }
 
 
-## first for x and y coosrdinates
+## first for x and y coordinates
 
 for (i in 1:10){
     tub[paste("r", i, sep="")] <- sqrt((tub$x - mon$x[i])^2  + (tub$y -
