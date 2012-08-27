@@ -5,8 +5,8 @@
 
 """ lines.py :
 
-Create series of lines, swap between horizontal and vertical - check for change in overall luminance. Modify line width in pixels with linewidth variable.
-"""
+Create series of lines, swap between horizontal and vertical - check for change
+in overall luminance. Modify line width in pixels with linewidth variable. """
 
 if __name__=='__main__':
     #Oft-changed constants here:
@@ -20,17 +20,17 @@ if __name__=='__main__':
     lowgray=0
     linewidth=5
 
-    import numpy as np
-    import pylab
-    import math
-    import matplotlib.pyplot as ppl
+    #import numpy as np
+    #import pylab
+    #import math
+    #import matplotlib.pyplot as ppl
     import time
 
     from ctypes import c_float
 
     from contextlib import closing
     from psychopy import visual
-    from psychopy import core
+    #from psychopy import core
     from psychopy import event
 
     # sarray=np.ones((1536,2048), dtype=np.uint16)
@@ -166,3 +166,4 @@ if __name__=='__main__':
                     color_list.append(colorspace[:])
                     #datafile.writeDataTXT(grayvals=[graystim, centralstimgray], rgb=None, xyY=colorspace, voltage=None, spec_list=None, delimiter="\t")
             time.sleep(waittime)
+

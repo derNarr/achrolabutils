@@ -13,3 +13,4 @@
 print("eizoGS320 module is now located in achrolabutils.monitor.eizoGS320!")
 print("\nPlease change that in your import part!!")
 from monitor.eizoGS320 import *
+

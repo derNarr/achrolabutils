@@ -32,8 +32,8 @@ while k<len(stimulilist):
         rightweightsmean=stimulilist[j][1]
 
         leftpatchgray=stimulilist[k][0]
-        rightpatchgray=stimulilist[j][0]        
-        
+        rightpatchgray=stimulilist[j][0]
+
         leftgrayminus=stimulilist[k][1]-stimulilist[k][0]
         rightgrayminus=stimulilist[j][1]-stimulilist[j][0]
 
@@ -43,7 +43,7 @@ while k<len(stimulilist):
         leftweights=[]
         for i in range(1023):
             leftweights.append(((1.0/(leftweightsvar * np.sqrt(2*np.pi))) * np.exp(-0.5*(((i-leftweightsmean)/leftweightsvar)**2))))
- 
+
         rightweights=[]
         for i in range(1023):
             rightweights.append(((1.0/(rightweightsvar * np.sqrt(2*np.pi))) * np.exp(-0.5*(((i-rightweightsmean)/rightweightsvar)**2))))
@@ -101,7 +101,7 @@ while k<len(stimulilist):
 
         fileoutnc.write("trial(['"+str(pngfile)+"', "+str(leftweightsmean)+","+str(leftweightsvar)+","+str(leftgrayminus)+","+str(rightweightsmean)+","+str(rightweightsvar)+","+str(rightgrayminus)+","+str(bggray)+","+str(seedleft)+","+str(seedright)+"], 'left', outputFile)\n")
         pil_im.save(pngfile)
-        
+
         j+=1
     k+=1
     j=0
