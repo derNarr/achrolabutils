@@ -85,5 +85,5 @@ plot(Y ~ gray_1, dat1[dat1$gray_1 %in% seq(875, 5, -5),], col="lightgrey")
 # 3 calibration colors:
 390
 600
-880
+850
 
