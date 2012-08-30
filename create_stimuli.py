@@ -17,7 +17,7 @@
 # last mod 2010-12-09, KS
 
 from numpy import repeat
-import eizoGS320
+from monitor import eizoGS320
 
 import Image
 

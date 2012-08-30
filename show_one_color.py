@@ -20,7 +20,7 @@ from psychopy import visual, event, core
 from achrolab.monitor import Monitor
 from achrolab.eyeone import EyeOne
 from numpy import repeat
-import eizoGS320
+from monitor import eizoGS320
 import Image
 
 tub = DevTubes()

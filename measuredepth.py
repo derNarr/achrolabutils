@@ -22,7 +22,7 @@ from ctypes import c_float
 from achrolab.eyeone import eyeone, EyeOneConstants
 from contextlib import closing
 from psychopy import visual
-import eizoGS320
+from monitor import eizoGS320
 
 #############################
 #   Measurement values   ####
