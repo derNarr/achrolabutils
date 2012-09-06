@@ -25,7 +25,7 @@ for i in range(1):
         return random.randint(1024, 4095)
  
     measure_green=caltub.measureOneColorChannel(color="green", insertfunction=fun,
-        n=1200,each=1)
+        n=5,each=1)
 
     voltages_g=voltages_g+measure_green[0]
     xyY_g=xyY_g+measure_green[1]

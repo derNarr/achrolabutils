@@ -18,7 +18,7 @@
 
 import time
 from ctypes import c_float
-from achrolab.eyeone import EyeOne, EyeOneConstants
+from achrolab.eyeone import eyeone, constants
 
 #############################
 #   Measurement values   ####
@@ -48,24 +48,24 @@ prefix = "30calib"
 # make measurements to a list for iterations
 measurements = range(measurement)
 
-EyeOne = EyeOne.EyeOne() # EyeOne Object
+EyeOne = eyeone.EyeOne() # EyeOne Object
 
 # set EyeOne Pro variables
-if(EyeOne.I1_SetOption(EyeOneConstants.I1_MEASUREMENT_MODE,
-    EyeOneConstants.I1_SINGLE_EMISSION) ==
-        EyeOneConstants.eNoError):
+if(EyeOne.I1_SetOption(constants.I1_MEASUREMENT_MODE,
+    constants.I1_SINGLE_EMISSION) ==
+        constants.eNoError):
     print("Measurement mode set to single emission.")
 else:
     print("Failed to set measurement mode.")
-if(EyeOne.I1_SetOption(EyeOneConstants.COLOR_SPACE_KEY,
-    EyeOneConstants.COLOR_SPACE_CIExyY) == EyeOneConstants.eNoError):
+if(EyeOne.I1_SetOption(constants.COLOR_SPACE_KEY,
+    constants.COLOR_SPACE_CIExyY) == constants.eNoError):
     print("Color space set to CIExyY.")
 else:
     print("Failed to set color space.")
 
 # Initialization of spectrum and colorspace
-colorspace = (c_float * EyeOneConstants.TRISTIMULUS_SIZE)()
-spectrum = (c_float * EyeOneConstants.SPECTRUM_SIZE)()
+colorspace = (c_float * constants.TRISTIMULUS_SIZE)()
+spectrum = (c_float * constants.SPECTRUM_SIZE)()
 spec_list = []
 color_list = []
 
@@ -77,37 +77,35 @@ with open("calibdata/measurements/justmeasure_" + str(prefix) + "_spec_" +
             "recalibration set " + str(recalibrate) + "\n")
     f1.write("Information: " + str(info) + "\n\n")
     with open("calibdata/measurements/justmeasure_" + str(prefix) +
-    "_color_" + time.strftime("%Y%m%d_%H%M") + ".txt", "w") as f2:
-        f2.write("Spectrum for " + str(measurement) + " measurements with "
-                + str(imi) + " intervall\n" + str(times) + " times with " + 
-                "recalibration set " + str(recalibrate) + "\n")
-        f2.write("Information: " + str(info) + "\n\n")
+    "_color_" + time.strftime("%Y%m%d_%H%from achrolab.eyeone.eyeone import EyeOneM") + ".txt", "w") as f2:
+        f2.write("Spectrum for " + str(meeyeone = EyeOne(dummy=True)asurement) + " measurements with "
+                + str(imi) + " intervall\caltub = CalibTubes(eyeone)n" + str(times) + " times with " + 
+                "recalibration set " + stcaltub.calibrate(imi=0.5, n=100, each=5)r(recalibrate) + "\n")
+        f2.write("Information: " + str(incaltub.saveParameter("example_tube_calibration.pkl")fo) + "\n\n")
         for n in range(times):
             if (recalibrate or (EyeOne.I1_TriggerMeasurement() ==
-                EyeOneConstants.eDeviceNotCalibrated)):
+                constants.eDeviceNotCalibrated)):
                 # Calibration of EyeOne
-                print("\nPlease put EyeOne Pro on calibration plate and
-                press \n key to start calibration.")
-                while(EyeOne.I1_KeyPressed() != EyeOneConstants.eNoError):
+                print("\nPlease put EyeOne Pro on calibration plate and press \n key to start calibration.")
+                while(EyeOne.I1_KeyPressed() != constants.eNoError):
                     time.sleep(0.1)
-                if (EyeOne.I1_Calibrate() == EyeOneConstants.eNoError):
+                if (EyeOne.I1_Calibrate() == constants.eNoError):
                     print("Calibration done.")
                 else:
                     print("Calibration failed.")
 
-            print("\nPlease put EyeOne Pro in measurement position and
-            press \n key to start measurement.")
-            while(EyeOne.I1_KeyPressed() != EyeOneConstants.eNoError):
+            print("\nPlease put EyeOne Pro in measurement position and press \n key to start measurement.")
+            while(EyeOne.I1_KeyPressed() != constants.eNoError):
                 time.sleep(0.1)
 
             print("Starting measurement...")
             for i in measurements:
             # Trigger measurement 
-                if(EyeOne.I1_TriggerMeasurement() != EyeOneConstants.eNoError):
+                if(EyeOne.I1_TriggerMeasurement() != constants.eNoError):
                     print("Measurement failed.")
             # retrieve Color Space
                 if(EyeOne.I1_GetTriStimulus(colorspace, 0) !=
-                    EyeOneConstants.eNoError):
+                    constants.eNoError):
                     print("Failed to get color space.")
                 else:
                     print("Color Space " + str(colorspace[:]) + "\n")
@@ -117,7 +115,7 @@ with open("calibdata/measurements/justmeasure_" + str(prefix) + "_spec_" +
                     f2.write("\n")
             # retrieve spectrum 
                 if(EyeOne.I1_GetSpectrum(spectrum, 0) !=
-                    EyeOneConstants.eNoError):
+                    constants.eNoError):
                     print("Failed to get spectrum.")
                 else:
                     print("Spectrum: " + str(spectrum[:]) + "\n")
