@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
-# ./just_measure.py
+# ./measure_depth.py
 #
 # (c) 2010 Konstantin Sering, Nora Umbach, Dominik Wabersich
 # <colorlab[at]psycho.uni-tuebingen.de>
@@ -14,7 +14,7 @@
 # output: --
 #
 # created 2011-10-14
-# last mod 2012-05-29, NU
+# last mod 
 
 import time
 import printing
