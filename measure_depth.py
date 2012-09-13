@@ -19,7 +19,7 @@
 import time
 import printing
 from ctypes import c_float
-from achrolab.eyeone import eyeone, EyeOneConstants
+from achrolab.eyeone import eyeone, constants
 from contextlib import closing
 from psychopy import visual
 from monitor import eizoGS320
@@ -49,21 +49,21 @@ prefix = "gdata"
 EyeOne = eyeone.EyeOne(dummy=False) # EyeOne Object
 
 # set EyeOne Pro variables
-if(EyeOne.I1_SetOption(EyeOneConstants.I1_MEASUREMENT_MODE,
-    EyeOneConstants.I1_SINGLE_EMISSION) ==
-        EyeOneConstants.eNoError):
+if(EyeOne.I1_SetOption(constants.I1_MEASUREMENT_MODE,
+    constants.I1_SINGLE_EMISSION) ==
+        constants.eNoError):
     print("Measurement mode set to single emission.")
 else:
     print("Failed to set measurement mode.")
-if(EyeOne.I1_SetOption(EyeOneConstants.COLOR_SPACE_KEY,
-    EyeOneConstants.COLOR_SPACE_CIExyY) == EyeOneConstants.eNoError):
+if(EyeOne.I1_SetOption(constants.COLOR_SPACE_KEY,
+    constants.COLOR_SPACE_CIExyY) == constants.eNoError):
     print("Color space set to CIExyY.")
 else:
     print("Failed to set color space.")
 
 # Initialization of spectrum and colorspace
-colorspace = (c_float * EyeOneConstants.TRISTIMULUS_SIZE)()
-spectrum = (c_float * EyeOneConstants.SPECTRUM_SIZE)()
+colorspace = (c_float * constants.TRISTIMULUS_SIZE)()
+spectrum = (c_float * constants.SPECTRUM_SIZE)()
 spec_list = []
 color_list = []
 
@@ -96,27 +96,27 @@ with closing(printing.CalibDataFile(prefix=prefix)) as test:
         #Put color changing code here, swap measurements dependence for some color dependence, and set times to number of recalibrations (perhaps batches of small numbers)
         #Then recalibrate, repeat for all colours
         if (recalibrate or (EyeOne.I1_TriggerMeasurement() ==
-            EyeOneConstants.eDeviceNotCalibrated)):
+            constants.eDeviceNotCalibrated)):
             # Calibration of EyeOne
             print("\nPlease put EyeOne Pro on calibration plate and press \n key to start calibration.")
-            while(EyeOne.I1_KeyPressed() != EyeOneConstants.eNoError):
+            while(EyeOne.I1_KeyPressed() != constants.eNoError):
                 time.sleep(0.1)
-            if (EyeOne.I1_Calibrate() == EyeOneConstants.eNoError):
+            if (EyeOne.I1_Calibrate() == constants.eNoError):
                 print("Calibration done.")
             else:
                 print("Calibration failed.")
 
         print("\nPlease put EyeOne Pro in measurement position and press \n key to start measurement.")
 
-        while(EyeOne.I1_KeyPressed() != EyeOneConstants.eNoError):
+        while(EyeOne.I1_KeyPressed() != constants.eNoError):
             time.sleep(0.1)
         print("Starting measurement...")
         while color>0: #for i in measurements: - swap measurements for colorr dependence
             # Trigger measurement
-            if(EyeOne.I1_TriggerMeasurement() != EyeOneConstants.eNoError):
+            if(EyeOne.I1_TriggerMeasurement() != constants.eNoError):
                 print("Measurement failed.")
             # retrieve Color Space
-            if(EyeOne.I1_GetTriStimulus(colorspace, 0) != EyeOneConstants.eNoError):
+            if(EyeOne.I1_GetTriStimulus(colorspace, 0) != constants.eNoError):
                 print("Failed to get color space.")
             else:
                 print("Color Space " + str(colorspace[:]) + "\n")
@@ -125,8 +125,7 @@ with closing(printing.CalibDataFile(prefix=prefix)) as test:
                         # f2.write(str(colorspace[:])[1:-1])
                         #f2.write("\n")
                 # retrieve spectrum
-            if(EyeOne.I1_GetSpectrum(spectrum, 0) !=
-               EyeOneConstants.eNoError):
+            if(EyeOne.I1_GetSpectrum(spectrum, 0) != constants.eNoError):
                 print("Failed to get spectrum.")
             else:
                 print("Spectrum: " + str(spectrum[:]) + "\n")

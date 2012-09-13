@@ -1,4 +1,4 @@
-#!/usr/bin/env Rscript
+#!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 # ./calibrate.py
 #
