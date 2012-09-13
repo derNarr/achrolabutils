@@ -7,57 +7,98 @@
 #
 # GPL 3.0+ or (cc) by-sa (http://creativecommons.org/licenses/by-sa/3.0/)
 #
-# content: find matching color for monitor an wall TODO: this is old!
+# content: find matching color for monitor and wall 
 #
 # input: --
 # output: --
 #
 # created
-# last mod 2012-02-08, KS
+# last mod 2012-06-20, KS
+
+from achrolab.eyeone.eyeone import EyeOne
+from achrolab.calibmonitor import CalibMonitor
+from achrolab.calibtubes import CalibTubes
+from achrolab.colortable import ColorTable
+from achrolab.colorentry import ColorEntry
+from achrolab.calibrate import Calibrate
 
 from psychopy import visual
-import time
 
-from achrolab.eyeone import EyeOne
-from achrolab.monitor import Monitor
-from achrolab.tubes import CalibTubes
-from achrolab.colortable import ColorTable
+from monitor import eizoGS320
 
-eyeone = EyeOne.EyeOne()
-mywin = visual.Window(size=(2048, 1536), monitor='mymon',
-        color=(0,0,0), screen=1)
-mon = Monitor(eyeone, mywin)
-tub = CalibTubes(eyeone, calibfile="./calibdata/lastParameterTubes.pkl")
-tub.calibrateEyeOne()
+eyeone = EyeOne()
 
-# interesting colors
-color_list = []
-for i in range(5):
-    color_list.append( "color" + str(129 + i) )
+mywin = visual.Window([1024,1536], monitor='mymon', color=(155,155,17),
+        screen=1, colorSpace="rgb255", allowGUI=False)
 
-color_table = ColorTable(mon, tub)
+calibmonitor = CalibMonitor(eyeone, mywin)
+calibtubes = CalibTubes(eyeone)
 
-color_table.loadFromPickle("./calibdata/color_table_20110126_1332.pkl")
-# contains several infos, especially information about the color, which
-# the algorithm (findVoltages and fVTuning) is about to converge to
+#calibtubes.is_calibrated = True
+calibrate = Calibrate(calibmonitor, calibtubes)
+colortable = ColorTable()
 
-# color_table.createColorList(patch_stim_value_list=[0.3,0.2])
-# when calibrating for the first time
+color1 = ColorEntry("color850", patch_stim_value=eizoGS320.encode_color(850, 850))
+color2 = ColorEntry("color600", patch_stim_value=eizoGS320.encode_color(600, 600))
+color3 = ColorEntry("color390", patch_stim_value=eizoGS320.encode_color(390, 390))
 
-# color_table.createColorList(patch_stim_value_list=[x/127.5 - 1 for x in
-# range(0,256)])
+## MONITOR
+#calibrate.calibmonitor.startMeasurement()
+#calibrate._measureColorEntryMonitor(color1, n=20)
+#calibrate._measureColorEntryMonitor(color2, n=20)
+#calibrate._measureColorEntryMonitor(color3, n=20)
+#
+#with open("measured_colors_monitor.txt", "w") as f:
+#    for color in (color1, color2, color3):
+#        f.write(str(color.name)+"\n")
+#        f.write(str(color.patch_stim_value)+"\n")
+#        f.write(str(color.monitor_xyY)+"\n")
+#        f.write(str(color.monitor_xyY_sd)+"\n")
+#        f.write(str(color.voltages)+"\n")
+#        f.write(str(color.tubes_xyY)+"\n")
+#        f.write(str(color.tubes_xyY_sd)+"\n")
+#
+#
+## TUBES
+#colors = (color1, color2, color3)
+filenames = ("calibdata/parameter_tubes_00_abs.pkl",
+        "calibdata/parameter_tubes_50_abs.pkl",
+        "calibdata/parameter_tubes_75_abs.pkl")
+#
+#for i in range(len(filenames)):
+#    print("NEXT COLOUR!")
+#    calibrate.calibtubes.startMeasurement()
+#    calibtubes.loadParameter(filename=filenames[i])
+#
+#    start_voltages = colors[i].voltages
+#    (voltages, xyY, spectrum) = calibrate.adjustManualPlot(
+#            colors[i].monitor_xyY, start_voltages)
+#    voltages_vision = calibrate.adjustManualVision(
+#            colors[i].patch_stim_value, voltages)
+#    colors[i].voltages = voltages_vision
+#    calibrate.calibtubes.startMeasurement()
+#    calibrate._measureColorEntryTubes(colors[i], n=20)
+#
+#with open("measured_colors.txt", "w") as f:
+#    for color in (color1, color2, color3):
+#        f.write(str(color.name)+"\n")
+#        f.write(str(color.patch_stim_value)+"\n")
+#        f.write(str(color.monitor_xyY)+"\n")
+#        f.write(str(color.monitor_xyY_sd)+"\n")
+#        f.write(str(color.voltages)+"\n")
+#        f.write(str(color.tubes_xyY)+"\n")
+#        f.write(str(color.tubes_xyY_sd)+"\n")
 
-color_table.findVoltages(name_list=color_list)
-color_table.saveToPickle("./calibdata/color_table_" + 
-        time.strftime("%Y%m%d_%H%M") +".pkl")
-color_table.saveToCsv("./calibdata/color_table_" + 
-        time.strftime("%Y%m%d_%H%M") +".csv")
-
-color_table.findVoltagesTuning(name_list=color_list)
-color_table.saveToPickle("./calibdata/color_table_" + 
-        time.strftime("%Y%m%d_%H%M") +".pkl")
-color_table.saveToCsv("./calibdata/color_table_" + 
-        time.strftime("%Y%m%d_%H%M") +".csv")
-
-# color_table.showColorList(name_list=color_list)
+# only for color3
+calibtubes.loadParameter(filename=filenames[0])
+voltages_vision = calibrate.adjustManualVision(
+        color3.patch_stim_value, [1024, 1539, 1483])
+color3.voltages = voltages_vision
+f.write(str(color3.name)+"\n")
+f.write(str(color3.patch_stim_value)+"\n")
+f.write(str(color3.monitor_xyY)+"\n")
+f.write(str(color3.monitor_xyY_sd)+"\n")
+f.write(str(color3.voltages)+"\n")
+f.write(str(color3.tubes_xyY)+"\n")
+f.write(str(color3.tubes_xyY_sd)+"\n")
 
