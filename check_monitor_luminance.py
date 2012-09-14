@@ -28,8 +28,6 @@ from achrolab.eyeone.eyeone import EyeOne
 from achrolab.calibmonitor import CalibMonitor
 from monitor import eizoGS320
 
-from contextlib import closing
-
 eyeone = EyeOne()
 
 mywin = visual.Window([1024,1536], monitor='mymon', color=(155,155,17),
