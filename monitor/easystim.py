@@ -6,7 +6,7 @@
 # GPL 3.0+ or (cc) by-sa (http://creativecommons.org/licenses/by-sa/3.0/)
 #
 # created 2012-05-21
-# last mod 2012-05-22 08:47 DW
+# last mod 2012-11-13 11:18 KS
 
 """This module contains a class to create and present an infield surround
 stimulus with psychopy."""
@@ -59,12 +59,11 @@ class SquareStim(object):
 if __name__ == '__main__':
     # small example, change screen to eizoGS320 to get the real stimuli
     from psychopy import event
-    mywin = visual.Window([1024,500], monitor="testMonitor", color=(155,155,17),
-            screen=0, colorSpace="rgb255", allowGUI=False, units="pix")
+    mywin = visual.Window([1024, 500], monitor="testMonitor",
+                          color=(155, 155, 17), screen=0, colorSpace="rgb255",
+                          allowGUI=False, units="pix")
     teststim = SquareStim(mywin,color=500, size=80)
     teststim.draw()
     mywin.flip()
     event.waitKeys(keyList='escape')
-    
-    
 
