@@ -7,13 +7,13 @@
 #
 # GPL 3.0+ or (cc) by-sa (http://creativecommons.org/licenses/by-sa/3.0/)
 #
-# content: find matching color for monitor and wall 
+# content: find matching color for monitor and wall
 #
 # input: --
 # output: --
 #
 # created
-# last mod 2012-06-20, KS
+# last mod 2012-10-23 14:50 KS
 
 from achrolab.eyeone.eyeone import EyeOne
 from achrolab.calibmonitor import CalibMonitor
