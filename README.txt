@@ -31,5 +31,6 @@ When you want to get writing access (you are allowed to and want to), run
     git remote rm origin
     git remote add origin git@github.com:derNarr/wasco.git
 
-For more relevant documentation see github.com/noum/documentation-achrolab.
+For more relevant documentation see
+github.com/derNarr/achrolab/tree/master/doc.
 
