@@ -6,6 +6,7 @@
 *.swp
 *.bmp
 *.png
+*.db
 
 calibdata/measurements/
 calibdata/
