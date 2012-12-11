@@ -15,19 +15,20 @@
 # created
 # last mod 2011-05-01, DW
 
-from achrolab.devtubes import DevTubes
 from psychopy import visual, event, core
+
+from achrolab.devtubes import DevTubes
 from achrolab.monitor import Monitor
-from achrolab.eyeone import EyeOne
+from achrolab.eyeone.eyeone import EyeOne
 from numpy import repeat
 from monitor import eizoGS320
 import Image
 
 tub = DevTubes()
-eye_one = EyeOne.EyeOne()#dummy=True)
+eye_one = EyeOne()#dummy=True)
 mywin = visual.Window(size=(1024, 1536), monitor='mymon',
             color=(1, 0, 0), screen=1, colorSpace='rgb')
-mon = Monitor(eye_one, mywin)
+mon = Monitor(mywin)
 
 # ## background from Exp I (old lab, old graphics card)
 # bg = 0.301960784314
@@ -41,7 +42,7 @@ mon = Monitor(eye_one, mywin)
 ## create bitmaps
 
 print("Create Images\nThis can take some time...\n")
-bg = 699
+bg = 600
 
 # background that just fills whole monitor with a certain color
 a_bg = repeat(bg, 2048*1536).reshape(1536, 2048)
@@ -56,7 +57,9 @@ print(".")
 print("Finished.\n")
 
 # set tubes (see find_color.R for details)
-voltages = (1409, 2176, 2028)
+#voltages = (1060, 1512, 1496)
+voltages = (1060/2+0x7FF, 1512/2+0x7FF, 1496/2+0x7FF)
+#voltages = (4000, 0x800, 0x800)
 
 tub.setVoltages(voltages)
 
