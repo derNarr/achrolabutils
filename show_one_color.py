@@ -57,8 +57,8 @@ print(".")
 print("Finished.\n")
 
 # set tubes (see find_color.R for details)
-#voltages = (1060, 1512, 1496)
-voltages = (1060/2+0x7FF, 1512/2+0x7FF, 1496/2+0x7FF)
+voltages = (1060, 1512, 1496)
+#voltages = (1060/2+0x7FF, 1512/2+0x7FF, 1496/2+0x7FF)
 #voltages = (4000, 0x800, 0x800)
 
 tub.setVoltages(voltages)

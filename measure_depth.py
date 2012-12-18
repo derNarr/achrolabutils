@@ -16,6 +16,9 @@
 # created 2011-10-14
 # last mod 2012-12-18 12:19 KS
 
+import sys
+sys.path.append("D:\\software\\")
+
 import time
 from achrolab import printing
 from ctypes import c_float
@@ -26,7 +29,9 @@ from stimuli import eizoGS320
 #############################
 #   Measurement values   ####
 #############################
+# colors: list of colors that should be measured
 # imi: inter measurement interval
+colors = (850, 600, 390)
 imi = 0.5
 
 #############################
@@ -37,15 +42,15 @@ imi = 0.5
 # each: how often every stimulus will be repeated
 # recalibrate: if times > 1, you can set 'recalibrate' to true, to recalibrate
 #       for every measurement process
-times = 5
-each = 10
+times = 15
+each = 5
 recalibrate = True
 
 #############################
 # Measuring Information  ####
 #############################
 # prefix: file prefix (in the filename)
-prefix = "gdata"
+prefix = "./calibdata/color_ratio"
 #############################
 
 eyeone = eyeone.EyeOne(dummy=False) # EyeOne Object
@@ -70,10 +75,8 @@ spec_list = []
 color_list = []
 
 #set monitor color
-
 mywin = visual.Window([1024,1536], monitor="mymon", color=(100,100,0),
         screen=1, colorSpace="rgb255", allowGUI=False, units="pix")
-colors = (850, 600, 390)
     # teststim=SquareStim(mywin,color=500, size=1024)
 
     #background = eizoGS320.decode_color((mywin.color[0], mywin.color[1], mywin.color[2]))
@@ -96,6 +99,11 @@ teststim = visual.PatchStim(mywin, tex=None, units='norm', pos=(0, 0), size=2,
 # print 'stop here' #@@@
 
 def measure(color):
+    print "Color:" + str(color)
+    teststim.setColor(eizoGS320.encode_color(color, color))
+    teststim.draw()
+    mywin.flip()
+    time.sleep(imi)
     # Trigger measurement
     if(eyeone.I1_TriggerMeasurement() != constants.eNoError):
         print("Measurement failed.")
@@ -114,25 +122,18 @@ def measure(color):
     else:
         print("Spectrum: " + str(spectrum[:]) + "\n")
         spec_list.append(spectrum[:])
-                # Write justmeasure spectrum file containing the data
-                # f1.write(str(spectrum[:])[1:-1] + "\n")
-                #f1.write("\n")
-
-                #is colorspace RGB values or xyY values, must test
-        file.writeDataTXT(grayvals=[color, color], rgb=None, xyY=colorspace, voltage=None, spec_list=spectrum, delimiter="\t")
-        print "Color:" + str(color)
-        teststim.setColor(eizoGS320.encode_color(color, color))
-        teststim.draw()
-        mywin.flip()
-        time.sleep(imi)
-        #Write grey values, xyY values, measured RGB values, spectral values, no voltage values
-        #Perhaps check the RGB values are decoded back in to roughly the same grey values
+    # write data to file
+    file.writeDataTXT(grayvals=[color, color], rgb=None, xyY=colorspace,
+            voltage=None, spec_list=spectrum, delimiter="\t")
 
 
 with printing.CalibDataFile(prefix=prefix) as file:
     for n in range(times):
-        #Put color changing code here, swap measurements dependence for some color dependence, and set times to number of recalibrations (perhaps batches of small numbers)
-        #Then recalibrate, repeat for all colours
+        print("\nRound " + str(n) + " of " str(times) + ".\n"
+        # Put color changing code here, swap measurements dependence for
+        # some color dependence, and set times to number of recalibrations
+        # (perhaps batches of small numbers)
+        # Then recalibrate, repeat for all colours
         if (recalibrate or (eyeone.I1_TriggerMeasurement() ==
             constants.eDeviceNotCalibrated)):
             # Calibration of EyeOne
