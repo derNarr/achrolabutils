@@ -41,6 +41,7 @@ colortable = ColorTable()
 color1 = ColorEntry("color850", patch_stim_value=eizoGS320.encode_color(850, 850))
 color2 = ColorEntry("color600", patch_stim_value=eizoGS320.encode_color(600, 600))
 color3 = ColorEntry("color390", patch_stim_value=eizoGS320.encode_color(390, 390))
+color4 = ColorEntry("color621", patch_stim_value=eizoGS320.encode_color(621, 621))
 
 ## MONITOR
 #calibrate.calibmonitor.startMeasurement()
@@ -90,15 +91,20 @@ filenames = ("calibdata/parameter_tubes_00_abs.pkl",
 #        f.write(str(color.tubes_xyY_sd)+"\n")
 
 # only for color3
-calibtubes.loadParameter(filename=filenames[0])
+calibtubes.loadParameter(filename=filenames[1])
+#(voltages_plot, xyY, spectrum) = calibrate.adjustManualPlot( (0.32, 0.29,
+#    17), [1162, 1755, 1614])
+color = color3
 voltages_vision = calibrate.adjustManualVision(
-        color3.patch_stim_value, [1024, 1539, 1483])
-color3.voltages = voltages_vision
-f.write(str(color3.name)+"\n")
-f.write(str(color3.patch_stim_value)+"\n")
-f.write(str(color3.monitor_xyY)+"\n")
-f.write(str(color3.monitor_xyY_sd)+"\n")
-f.write(str(color3.voltages)+"\n")
-f.write(str(color3.tubes_xyY)+"\n")
-f.write(str(color3.tubes_xyY_sd)+"\n")
+        color.patch_stim_value, [999, 1509, 1453])
+print(voltages_vision)
+color.voltages = voltages_vision
+with open("measured_colors.txt", "a") as f:
+    f.write(str(color.name)+"\n")
+    f.write(str(color.patch_stim_value)+"\n")
+    f.write(str(color.monitor_xyY)+"\n")
+    f.write(str(color.monitor_xyY_sd)+"\n")
+    f.write(str(color.voltages)+"\n")
+    f.write(str(color.tubes_xyY)+"\n")
+    f.write(str(color.tubes_xyY_sd)+"\n")
 
