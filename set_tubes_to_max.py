@@ -16,9 +16,10 @@
 # last mod 2010-12-02, KS
 
 from achrolab.wasco.wasco import wasco, boardId
-from achrolab.wasco.constants import DAOUT1, DAOUT2, DAOUT3
+from achrolab.wasco.constants import DAOUT1, DAOUT2, DAOUT3, DAOUT4
 
 wasco.wasco_outportW(boardId, DAOUT1, 0xFFF)
 wasco.wasco_outportW(boardId, DAOUT2, 0xFFF)
 wasco.wasco_outportW(boardId, DAOUT3, 0xFFF)
+wasco.wasco_outportW(boardId, DAOUT4, 0xFFF)
 

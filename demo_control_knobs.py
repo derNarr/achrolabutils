@@ -19,27 +19,48 @@ Demo for the control knobs.
 
 """
 
-import time
-from ctypes import c_ulong, byref
+from __future__ import print_function
 
-from achrolab import wasco
+import time
+
+from achrolab.wasco import wasco
+from achrolab.wasco.constants import (AD_ADCONT, AD_ADDAT, AD_ADRANGE,
+        AD_ADSTAT, AD_STARTCH, AD_SWTRIG, DAOUT1, RESETERRORFLAG,
+        RESETFIFO)
 
 wasco_card = wasco.Wasco()
 boardId = wasco_card.boardId
 
-all_ = c_ulong(0)
-red = c_ulong(0)
-green = c_ulong(0)
-blue = c_ulong(0)
+wasco_card.wasco_outportW(boardId, AD_ADCONT, 0x91) # A/D-Modus:
+                                                    # Softwareauslösung
+wasco_card.wasco_outportW(boardId, AD_ADCONT, 0xB1) # PGA-Ansteuerung über
+                                                    # Register AD_ADRANGE
+
+# MUX-Ansteuerung über Register AD_ADSTARTCH
+wasco_card.wasco_outportW(boardId, AD_ADRANGE, 0x1) # VPGA = 2, single ended
+                                                    # vgl Seite 34 im
+                                                    # Manual
+wasco_card.wasco_outportW(boardId, RESETERRORFLAG, 0x0)
+wasco_card.wasco_outportW(boardId, RESETFIFO, 0x0)
+wasco_card.wasco_outportW(boardId, DAOUT1, 0x820)
 
 while True:
-    wasco_card.wasco_readAnalogInp(boardId, None, 63, byref(all_), 0)
-    wasco_card.wasco_readAnalogInp(boardId, None, 62, byref(red), 0)
-    wasco_card.wasco_readAnalogInp(boardId, None, 61, byref(green), 0)
-    wasco_card.wasco_readAnalogInp(boardId, None, 60, byref(blue), 0)
-    print("all: %i" % all_)
-    print("red: %i" % red)
-    print("green: %i" % green)
-    print("blue: %i" % blue)
-    time.sleep(0.2)
+    # break with <ctrl>-c
+    for chnr in range(60, 64): # trigger channel 60-63
+          wasco_card.wasco_outportW(boardId, AD_STARTCH, chnr)
+          time.sleep(0.001)
+          wasco_card.wasco_outportW(boardId, AD_SWTRIG, 0x0)
+          time.sleep(0.001)
+
+    for mwnr in range(60, 64):
+        status = wasco_card.wasco_inportW(boardId, AD_ADSTAT) # check A/D-Status-Register
+        if status:
+            mw = wasco_card.wasco_inportW(boardId, AD_ADDAT) # read A/D-Wert
+            print("Kanal: %02d  %4x Hex  %4.4f Volt\t" % (mwnr,mw,-10 + mw
+                * 0.004882812), end="")
+            time.sleep(0.005)
+        else:
+            print(("\nA/D-Statusregister: %x") % status)
+    print("\n\n")
+    time.sleep(0.200)
 
