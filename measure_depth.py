@@ -14,9 +14,10 @@
 # output: --
 #
 # created 2011-10-14
-# last mod 2012-12-18 12:19 KS
+# last mod 2013-01-29 11:34 KS
 
 import sys
+sys.path.append("..")
 sys.path.append("D:\\software\\")
 
 import time
@@ -24,6 +25,7 @@ from achrolab import printing
 from ctypes import c_float
 from achrolab.eyeone import eyeone, constants
 from psychopy import visual
+
 from stimuli import eizoGS320
 
 #############################
@@ -82,7 +84,7 @@ mywin = visual.Window([1024,1536], monitor="mymon", color=(100,100,0),
     #background = eizoGS320.decode_color((mywin.color[0], mywin.color[1], mywin.color[2]))
     #if not(background[0] == background[1]):
     #print("WARNING: There is something wrong with the background color")
-teststim = visual.PatchStim(mywin, tex=None, units='norm', pos=(0, 0), size=2,
+teststim = visual.GratingStim(mywin, tex=None, units='norm', pos=(0, 0), size=2,
                           colorSpace=mywin.colorSpace,
                           color=eizoGS320.encode_color(400, 400))
 # while color > 0:
@@ -129,7 +131,7 @@ def measure(color):
 
 with printing.CalibDataFile(prefix=prefix) as file:
     for n in range(times):
-        print("\nRound " + str(n) + " of " str(times) + ".\n"
+        print("\nRound " + str(n) + " of " + str(times) + ".\n")
         # Put color changing code here, swap measurements dependence for
         # some color dependence, and set times to number of recalibrations
         # (perhaps batches of small numbers)

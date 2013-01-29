@@ -14,19 +14,21 @@
 # output: --
 #
 # created
-# last mod 2010-12-09, KS
+# last mod 2013-01-29 11:32 KS
+
+import sys
+sys.path.append("..")
 
 from numpy import repeat
-from monitor import eizoGS320
-
 import Image
 
+from stimuli import eizoGS320
 
 bg = 621
- 
+
 # # background that just fills whole monitor with a certain color
 # a_bg = repeat(bg, 2048*1536).reshape(1536, 2048)
-# 
+#
 # # transform numpy array so EIZO GS320 can display it in packed pixel modus
 # np_bg = eizoGS320.encode_np_array(a_bg)
 # # create image
@@ -79,7 +81,7 @@ for i in range(len(stim_inf1)):
         # create image array out of the 5 "image-lines"
         a_stim = repeat([line1, line2, line3, line4, line5], [55, 35, 10,
                  35, 55], axis=0)
-        
+
         # check if stimuli have the correct size
         # print(a_bg.shape)       # should be (1536, 2048)
         print(a_stim.shape)     # should be (size_sur, 2048)
@@ -87,11 +89,11 @@ for i in range(len(stim_inf1)):
         # transform numpy array so EIZO GS320 can display it in packed
         # pixel modus
         np_stim = eizoGS320.encode_np_array(a_stim)
-        
+
         # create image
         pil_stim = Image.fromarray(np_stim)
-        
+
         # save image
         #pil_stim.save("stim" + str(i) + ".bmp")
         pil_stim.save("stim" + str(i) + str(j) + ".png")
-        
+

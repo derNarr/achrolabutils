@@ -13,20 +13,20 @@
 # output: --
 #
 # created
-# last mod 2010-05-29, NU
+# last mod 2013-01-29 11:15 KS
 
 from psychopy import visual, core
 
 mywin = visual.Window([2048, 1536], monitor='mymon', units='deg',
         color=255, colorSpace='rgb255', allowGUI=False, screen=1)
 
-surround1 = visual.PatchStim(win=mywin, units='deg', size=8,
+surround1 = visual.GratingStim(win=mywin, units='deg', size=8,
         pos=[4,0], sf=0, color=150, colorSpace='rgb255')
-infield1  = visual.PatchStim(win=mywin, units='deg', size=2,
+infield1  = visual.GratingStim(win=mywin, units='deg', size=2,
         pos=[4,0], sf=0, color=100, colorSpace='rgb255')
-surround2 = visual.PatchStim(win=mywin, units='deg', size=8,
+surround2 = visual.GratingStim(win=mywin, units='deg', size=8,
         pos=[-4,0], sf=0, color=100, colorSpace='rgb255')
-infield2  = visual.PatchStim(win=mywin, units='deg', size=2,
+infield2  = visual.GratingStim(win=mywin, units='deg', size=2,
         pos=[-4,0], sf=0, color=50, colorSpace='rgb255')
 
 surround1.draw()
