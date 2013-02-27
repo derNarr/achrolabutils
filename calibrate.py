@@ -13,7 +13,7 @@
 # output: --
 #
 # created
-# last mod 2013-01-29 11:30 KS
+# last mod 2013-02-27 15:08 KS
 
 import sys
 sys.path.append("..")
@@ -68,6 +68,7 @@ color4 = ColorEntry("color621", patch_stim_value=eizoGS320.encode_color(621, 621
 filenames = ("calibdata/parameter_tubes_00_abs.pkl",
         "calibdata/parameter_tubes_50_abs.pkl",
         "calibdata/parameter_tubes_75_abs.pkl")
+filenames = ("calibdata/example_tube_calibration.pkl",)
 #
 #for i in range(len(filenames)):
 #    print("NEXT COLOUR!")
@@ -94,20 +95,20 @@ filenames = ("calibdata/parameter_tubes_00_abs.pkl",
 #        f.write(str(color.tubes_xyY_sd)+"\n")
 
 # only for color3
-calibtubes.loadParameter(filename=filenames[1])
-#(voltages_plot, xyY, spectrum) = calibrate.adjustManualPlot( (0.32, 0.29,
-#    17), [1162, 1755, 1614])
-color = color3
-voltages_vision = calibrate.adjustManualVision(
-        color.patch_stim_value, [999, 1509, 1453])
-print(voltages_vision)
-color.voltages = voltages_vision
-with open("measured_colors.txt", "a") as f:
-    f.write(str(color.name)+"\n")
-    f.write(str(color.patch_stim_value)+"\n")
-    f.write(str(color.monitor_xyY)+"\n")
-    f.write(str(color.monitor_xyY_sd)+"\n")
-    f.write(str(color.voltages)+"\n")
-    f.write(str(color.tubes_xyY)+"\n")
-    f.write(str(color.tubes_xyY_sd)+"\n")
+calibtubes.loadParameter(filename=filenames[0])
+(voltages_plot, xyY, spectrum) = calibrate.adjustManualPlot( (0.32, 0.29,
+    17), [1162, 1755, 1614])
+#color = color3
+#voltages_vision = calibrate.adjustManualVision(
+#        color.patch_stim_value, [999, 1509, 1453])
+#print(voltages_vision)
+#color.voltages = voltages_vision
+#with open("measured_colors.txt", "a") as f:
+#    f.write(str(color.name)+"\n")
+#    f.write(str(color.patch_stim_value)+"\n")
+#    f.write(str(color.monitor_xyY)+"\n")
+#    f.write(str(color.monitor_xyY_sd)+"\n")
+#    f.write(str(color.voltages)+"\n")
+#    f.write(str(color.tubes_xyY)+"\n")
+#    f.write(str(color.tubes_xyY_sd)+"\n")
 
