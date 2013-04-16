@@ -15,18 +15,20 @@
 # output: --
 #
 # created 2012-09-13 NU
-# last mod 2012-09-13 NU
+# last mod 2013-01-29 11:31 KS
 
 import sys
 sys.path.append("../achrolabutils")
+sys.path.append("..")
 
 import time
 import random
 from psychopy import visual
 
+from stimuli import eizoGS320
+
 from achrolab.eyeone.eyeone import EyeOne
 from achrolab.calibmonitor import CalibMonitor
-from monitor import eizoGS320
 
 eyeone = EyeOne()
 
@@ -56,10 +58,10 @@ dataFile = open('D:/software/achrolabutils/calibdata/measurements/monitor_up_' +
 dataFile.write('color' + ',' + 'x' + ',' + 'y' + ',' + 'Y' + '\n')
 
 for color in col_list:
-    xyY_list.append(mon.measurePatchStimColor(eizoGS320.encode_color(color,
+    xyY_list.append(mon.measureGratingStimColor(eizoGS320.encode_color(color,
         color)))
     print(color)
-    
+
 for i in range(len(col_list)):
     dataFile.write(str(col_list[i]) + ',' + str(xyY_list[i][0][0]) + ',' +
             str(xyY_list[i][0][1]) + ',' + str(xyY_list[i][0][2]) + '\n')
@@ -80,10 +82,10 @@ dataFile = open('D:/software/achrolabutils/calibdata/measurements/monitor_down_'
 dataFile.write('color' + ',' + 'x' + ',' + 'y' + ',' + 'Y' + '\n')
 
 for color in col_list:
-    xyY_list.append(mon.measurePatchStimColor(eizoGS320.encode_color(color,
+    xyY_list.append(mon.measureGratingStimColor(eizoGS320.encode_color(color,
         color)))
     print(color)
-    
+
 for i in range(len(col_list)):
     dataFile.write(str(col_list[i]) + ',' + str(xyY_list[i][0][0]) + ',' +
             str(xyY_list[i][0][1]) + ',' + str(xyY_list[i][0][2]) + '\n')
@@ -103,10 +105,10 @@ dataFile = open('D:/software/achrolabutils/calibdata/measurements/monitor_random
 dataFile.write('color' + ',' + 'x' + ',' + 'y' + ',' + 'Y' + '\n')
 
 for color in col_list:
-    xyY_list.append(mon.measurePatchStimColor(eizoGS320.encode_color(color,
+    xyY_list.append(mon.measureGratingStimColor(eizoGS320.encode_color(color,
         color)))
     print(color)
-    
+
 for i in range(len(col_list)):
     dataFile.write(str(col_list[i]) + ',' + str(xyY_list[i][0][0]) + ',' +
             str(xyY_list[i][0][1]) + ',' + str(xyY_list[i][0][2]) + '\n')
