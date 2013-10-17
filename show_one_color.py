@@ -28,8 +28,8 @@ from numpy import repeat
 from stimuli import eizoGS320
 import Image
 
-color = bg = 600
-voltages = (1024, 1517, 1425)
+color = bg = 621
+voltages = (1067, 1590, 1514)
 # set tubes (see find_color.R for details)
 
 tub = DevTubes()
