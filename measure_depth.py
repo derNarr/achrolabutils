@@ -7,17 +7,17 @@
 #
 # GPL 3.0+ or (cc) by-sa (http://creativecommons.org/licenses/by-sa/3.0/)
 #
-# content: Script for measuring monitor or tubes; define how many measurements,
+# content: Script for measuring monitor; define how many measurements,
 # if you want to recalibrate i1, etc.
 #
 # input: --
 # output: --
 #
 # created 2011-10-14
-# last mod 2013-01-29 11:34 KS
+# last mod 2013-10-17 NU
 
 import sys
-sys.path.append("..")
+sys.path.append("D:\\software\\achrolabutils")
 sys.path.append("D:\\software\\")
 
 import time
@@ -33,7 +33,7 @@ from stimuli import eizoGS320
 #############################
 # colors: list of colors that should be measured
 # imi: inter measurement interval
-colors = (850, 600, 390)
+colors = (374, 376, 380, 386, 392, 396, 398, 400, 404, 408, 410, 416, 422, 424, 428, 432, 436, 456, 476, 480, 496, 500, 504, 508, 512, 516, 536, 584, 588, 621)
 imi = 0.5
 
 #############################
@@ -52,7 +52,7 @@ recalibrate = True
 # Measuring Information  ####
 #############################
 # prefix: file prefix (in the filename)
-prefix = "./calibdata/color_ratio"
+prefix = "./true_luminance"
 #############################
 
 eyeone = eyeone.EyeOne(dummy=False) # EyeOne Object
@@ -125,13 +125,13 @@ def measure(color):
         print("Spectrum: " + str(spectrum[:]) + "\n")
         spec_list.append(spectrum[:])
     # write data to file
-    file.writeDataTXT(grayvals=[color, color], rgb=None, xyY=colorspace,
+    file.write_data_txt(grayvals=[color, color], rgb=None, xyY=colorspace,
             voltage=None, spec_list=spectrum, delimiter="\t")
 
 
 with printing.CalibDataFile(prefix=prefix) as file:
     for n in range(times):
-        print("\nRound " + str(n) + " of " + str(times) + ".\n")
+        print("\nRound " + str(n + 1) + " of " + str(times) + ".\n")
         # Put color changing code here, swap measurements dependence for
         # some color dependence, and set times to number of recalibrations
         # (perhaps batches of small numbers)
