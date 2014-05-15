@@ -41,7 +41,7 @@ recalibrate = True       ####
 #############################
 # info: short information about what exactly you are measuring
 # prefix: file prefix (in the filename)
-info = "Measruring screen 30 times with different calibrations"
+info = "Measuring screen 30 times with different calibrations"
 prefix = "30calib"
 #############################
 
