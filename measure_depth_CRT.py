@@ -14,7 +14,7 @@
 # output: --
 #
 # created 2011-10-14
-# last mod 2013-10-17 NU
+# last mod 2014-05-13 NU
 
 import sys
 sys.path.append("D:\\software\\achrolabutils")
@@ -33,8 +33,7 @@ from stimuli import eizoGS320
 #############################
 # colors: list of colors that should be measured
 # imi: inter measurement interval
-colors = range(400, 500)
-#colors = (374, 376, 380, 386, 392, 396, 398, 400, 404, 408, 410, 416, 422, 424, 428, 432, 436, 456, 476, 480, 496, 500, 504, 508, 512, 516, 536, 584, 588, 621)
+colors = range(256)
 imi = 0.5
 
 #############################
@@ -47,13 +46,13 @@ imi = 0.5
 #       for every measurement process
 times = 1
 each = 5
-recalibrate = True
+recalibrate = False
 
 #############################
 # Measuring Information  ####
 #############################
 # prefix: file prefix (in the filename)
-prefix = "./EIZO_measure_bit_"
+prefix = "./LCD_luminance_"
 #############################
 
 eyeone = eyeone.EyeOne(dummy=False) # EyeOne Object
@@ -78,8 +77,8 @@ spec_list = []
 color_list = []
 
 #set monitor color
-mywin = visual.Window([1024,1536], monitor="mymon", color=(100,100,0),
-        screen=1, colorSpace="rgb255", allowGUI=False, units="pix")
+mywin = visual.Window([1280,1024], monitor="mymon", color=0,
+        screen=0, colorSpace="rgb255", allowGUI=False, units="pix")
     # teststim=SquareStim(mywin,color=500, size=1024)
 
     #background = eizoGS320.decode_color((mywin.color[0], mywin.color[1], mywin.color[2]))
@@ -87,7 +86,7 @@ mywin = visual.Window([1024,1536], monitor="mymon", color=(100,100,0),
     #print("WARNING: There is something wrong with the background color")
 teststim = visual.GratingStim(mywin, tex=None, units='norm', pos=(0, 0), size=2,
                           colorSpace=mywin.colorSpace,
-                          color=eizoGS320.encode_color(400, 400))
+                          color=100)
 # while color > 0:
 #     teststim.draw()
 #     mywin.flip()
@@ -103,7 +102,7 @@ teststim = visual.GratingStim(mywin, tex=None, units='norm', pos=(0, 0), size=2,
 
 def measure(color):
     print "Color:" + str(color)
-    teststim.setColor(eizoGS320.encode_color(color, color))
+    teststim.setColor(color)
     teststim.draw()
     mywin.flip()
     time.sleep(imi)
